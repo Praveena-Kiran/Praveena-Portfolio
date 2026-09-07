@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Design Tokens: Near-black base with restrained violet/indigo accents */
+    --background: 228 24% 4%;       /* #08090D */
+    --foreground: 240 6% 97%;       /* #F5F5F7 */
+
+    --card: 233 20% 8%;             /* #101118 (Surface) */
+    --card-foreground: 240 6% 97%;  /* #F5F5F7 */
+
+    --popover: 233 20% 8%;          /* #101118 */
+    --popover-foreground: 240 6% 97%;
+
+    --primary: 252 100% 68%;        /* #7C5CFF */
+    --primary-foreground: 240 6% 97%;
+
+    --secondary: 228 20% 12%;       /* #171923 (Surface Hover) */
+    --secondary-foreground: 240 6% 97%;
+
+    --muted: 228 18% 14%;
+    --muted-foreground: 223 13% 60%; /* #8B93A7 */
+
+    --accent: 228 20% 12%;          /* #171923 */
+    --accent-foreground: 240 6% 97%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 240 6% 97%;
+
+    --border: 224 19% 18%;          /* #252936 */
+    --input: 224 19% 18%;
+    --ring: 252 100% 68%;           /* #7C5CFF */
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-text font-sans antialiased min-h-screen;
+    background-color: #08090D;
+    color: #F5F5F7;
+  }
+
+  /* Custom subtle dark scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #08090D;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #252936;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #363b4e;
+  }
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtleScrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-hero-reveal {
+  opacity: 0;
+  animation: heroReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-subtle-scroll {
+  animation: subtleScrollBounce 2.5s ease-in-out infinite;
+}
+
+/* Single-pass ticker (no DOM duplication) — starts off-screen, ends off-screen, reset is invisible */
+@keyframes ticker-left {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
+}
+
+@keyframes ticker-right {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100vw); }
+}
+
+.animate-ticker-left {
+  animation: ticker-left var(--ticker-duration, 50s) linear infinite;
+}
+
+.animate-ticker-right {
+  animation: ticker-right var(--ticker-duration, 50s) linear infinite;
+}
+
+.ticker-row:hover .animate-ticker-left,
+.ticker-row:hover .animate-ticker-right {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker-left,
+  .animate-ticker-right {
+    animation: none !important;
+    transform: none !important;
+  }
+}

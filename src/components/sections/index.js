@@ -1,0 +1,8 @@
+export { Hero } from './Hero'
+export { About } from './About'
+export { TechStack } from './TechStack'
+export { Projects } from './Projects'
+export { LensFlowShowcase } from './LensFlowShowcase'
+export { HowIBuild } from './HowIBuild'
+export { Experience } from './Experience'
+export { Contact } from './Contact'
