@@ -1,15 +1,6 @@
 import React from 'react'
 import { MainLayout } from '@/components/layout'
-import {
-  Hero,
-  About,
-  TechStack,
-  Projects,
-  LensFlowShowcase,
-  HowIBuild,
-  Experience,
-  Contact,
-} from '@/components/sections'
+import { Hero, About, TechStack, Projects, Experience, Contact } from '@/components/sections'
 
 export function HomePage() {
   return (
@@ -18,8 +9,6 @@ export function HomePage() {
       <About />
       <TechStack />
       <Projects />
-      <LensFlowShowcase />
-      <HowIBuild />
       <Experience />
       <Contact />
     </MainLayout>

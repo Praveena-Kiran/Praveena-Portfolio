@@ -1,142 +1,130 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useReveal } from '@/hooks/useReveal'
 
-// Simple Icons from react-icons (where available)
-import {
-  SiPython,
-  SiJavascript,
-  SiReact,
-  SiHtml5,
-  SiCss,
-  SiOpencv,
-  SiTensorflow,
-  SiPytorch,
-  SiLinux,
-  SiGit,
-  SiGithub,
-  SiMysql,
-  SiMongodb,
-  SiMediapipe,
-} from 'react-icons/si'
+// Each tech gets a contextual description shown on hover
+const TECH_NOTES = {
+  Python:          'Used for automation, computer vision, and system tools.',
+  Java:            'Used for object-oriented systems and coursework projects.',
+  JavaScript:      'Used for web interfaces and interactive UI.',
+  SQL:             'Used for relational database queries and data management.',
+  React:           'Used to build this portfolio and web application UIs.',
+  HTML:            'Structure layer for all web projects.',
+  CSS:             'Styling and layout — including this site.',
+  OpenCV:          'Used in LensFlow for real-time computer vision pipelines.',
+  MediaPipe:       'Used in LensFlow for hand landmark detection and gesture recognition.',
+  TensorFlow:      'Used for building and experimenting with ML models.',
+  PyTorch:         'Used for deep learning experimentation.',
+  Linux:           'Daily development environment; used in LinuxMonitor.',
+  Git:             'Version control across all projects.',
+  GitHub:          'Hosting and collaboration for open-source work.',
+  AWS:             'Cloud infrastructure and deployment.',
+  MySQL:           'Relational database used in web applications.',
+  MongoDB:         'Document database used for flexible data storage.',
+}
 
-// Lucide fallbacks for technologies without Simple Icons
-import { Cpu, Cloud, Database } from 'lucide-react'
-
-// ─── Technology Rows ──────────────────────────────────────────────────────────
-// Each item appears EXACTLY ONCE. No duplication.
-
-const ROWS = [
+const CATEGORIES = [
   {
-    id: 'languages',
-    label: 'LANGUAGES',
+    id: 'lang',
     index: '01',
-    direction: 'left',
-    duration: '30s',
-    items: [
-      { name: 'Python',      icon: SiPython },
-      { name: 'Java',        icon: Cpu },         // No SI icon — Lucide fallback
-      { name: 'JavaScript',  icon: SiJavascript },
-      { name: 'SQL',         icon: Database },    // No SI icon — Lucide fallback
-    ],
+    label: 'Languages',
+    note: 'What I write in.',
+    items: ['Python', 'Java', 'JavaScript', 'SQL'],
+    dir: 'l', dur: '30s',
   },
   {
     id: 'web',
-    label: 'WEB',
     index: '02',
-    direction: 'right',
-    duration: '24s',
-    items: [
-      { name: 'React',       icon: SiReact },
-      { name: 'HTML',        icon: SiHtml5 },
-      { name: 'CSS',         icon: SiCss },
-    ],
+    label: 'Web',
+    note: 'How I build interfaces.',
+    items: ['React', 'HTML', 'CSS'],
+    dir: 'r', dur: '22s',
   },
   {
-    id: 'ai-vision',
-    label: 'AI / VISION',
+    id: 'ai',
     index: '03',
-    direction: 'left',
-    duration: '34s',
-    items: [
-      { name: 'OpenCV',      icon: SiOpencv },
-      { name: 'MediaPipe',   icon: SiMediapipe },
-      { name: 'TensorFlow',  icon: SiTensorflow },
-      { name: 'PyTorch',     icon: SiPytorch },
-    ],
+    label: 'AI / Vision',
+    note: 'Core of LensFlow and Trace.',
+    items: ['OpenCV', 'MediaPipe', 'TensorFlow', 'PyTorch'],
+    dir: 'l', dur: '28s',
   },
   {
-    id: 'systems-data',
-    label: 'SYSTEMS / DATA',
+    id: 'sys',
     index: '04',
-    direction: 'right',
-    duration: '38s',
-    items: [
-      { name: 'Linux',       icon: SiLinux },
-      { name: 'Git',         icon: SiGit },
-      { name: 'GitHub',      icon: SiGithub },
-      { name: 'AWS',         icon: Cloud },       // No SI icon — Lucide fallback
-      { name: 'MySQL',       icon: SiMysql },
-      { name: 'MongoDB',     icon: SiMongodb },
-    ],
+    label: 'Systems & Data',
+    note: 'Infrastructure, monitoring, storage.',
+    items: ['Linux', 'Git', 'GitHub', 'AWS', 'MySQL', 'MongoDB'],
+    dir: 'r', dur: '34s',
   },
 ]
 
-// ─── TechItem ─────────────────────────────────────────────────────────────────
-
-function TechItem({ name, icon: Icon }) {
+function TechItem({ name }) {
   return (
-    <span
-      className="group/item inline-flex items-center gap-2.5 cursor-default select-none flex-shrink-0 mx-8 sm:mx-12"
-    >
-      {/* Monochrome icon */}
-      <Icon
-        className="h-4 w-4 sm:h-5 sm:w-5 text-[#8B93A7] group-hover/item:text-[#C9C5BE] transition-colors duration-200 flex-shrink-0"
-        aria-hidden="true"
-      />
-
-      {/* Technology name */}
-      <span
-        className="text-base sm:text-lg font-medium tracking-tight text-[#D8D4CE] group-hover/item:text-[#EEECE8] transition-colors duration-200 whitespace-nowrap"
-      >
-        {name}
+    <span className="inline-flex items-center mx-8 sm:mx-12 whitespace-nowrap select-none">
+      <span className="mr-8 sm:mr-12 text-[#2C2924] text-xs" aria-hidden="true">×</span>
+      <span className="tech-tooltip-wrap">
+        <span
+          className="text-[#E9E4D9] hover:text-[#C47A2C] transition-colors duration-200 cursor-default"
+          style={{
+            fontFamily: 'Sora, system-ui, sans-serif',
+            fontWeight: 700,
+            fontSize: 'clamp(1.5rem, 2.6vw, 2.4rem)',
+          }}
+        >
+          {name}
+        </span>
+        {TECH_NOTES[name] && (
+          <span className="tech-tooltip" role="tooltip">
+            {TECH_NOTES[name]}
+          </span>
+        )}
       </span>
     </span>
   )
 }
 
-// ─── TechTickerRow ────────────────────────────────────────────────────────────
-
-function TechTickerRow({ label, index, items, direction, duration }) {
-  const animClass = direction === 'left' ? 'animate-ticker-left' : 'animate-ticker-right'
+function TickerRow({ label, index, note, items, dir, dur }) {
+  const doubled = [...items, ...items]
+  const animClass = dir === 'l' ? 'tick-l' : 'tick-r'
 
   return (
-    <div className="ticker-row group">
-      {/* Category label + rule — stays in the page margin */}
-      <div className="flex items-center gap-3 mb-3 px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto">
-        <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#8B93A7]/60 whitespace-nowrap select-none">
-          {index} / {label}
+    <div className="ticker-wrap group/row">
+      {/* Category label */}
+      <div className="flex items-center justify-between px-5 sm:px-8 lg:px-12 py-3 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3">
+          <span
+            className="font-mono text-[9px] text-[#3D3A34]"
+            style={{ fontFamily: 'JetBrains Mono, monospace' }}
+          >
+            {index}
+          </span>
+          <span className="s-label group-hover/row:text-[#E9E4D9] transition-colors duration-200">
+            {label}
+          </span>
+        </div>
+        <span
+          className="s-label text-[#C47A2C] italic opacity-0 group-hover/row:opacity-100 transition-opacity duration-300 hidden sm:block normal-case tracking-normal"
+          style={{ fontSize: '11px', letterSpacing: '0.02em', textTransform: 'none', fontFamily: 'Manrope, system-ui, sans-serif', fontWeight: 400 }}
+        >
+          {note}
         </span>
-        <div className="flex-1 h-px bg-[#252936]/60" aria-hidden="true" />
       </div>
 
-      {/* Full-width ticker track — overflows internally, never causes page scroll */}
+      {/* Scrolling track */}
       <div
-        className="overflow-hidden w-full py-2"
+        className="overflow-hidden w-full py-1"
         style={{
-          maskImage:
-            'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
         }}
+        aria-label={`${label}: ${items.join(', ')}`}
       >
-        {/* Single, unduplicated sequence animated across the full viewport */}
         <div
           className={`inline-flex items-center ${animClass} will-change-transform`}
-          style={{ '--ticker-duration': duration }}
-          role="list"
-          aria-label={`${label} technologies`}
+          style={{ '--dur': dur }}
+          aria-hidden="true"
         >
-          {items.map((tech) => (
-            <TechItem key={tech.name} name={tech.name} icon={tech.icon} />
+          {doubled.map((name, i) => (
+            <TechItem key={`${name}-${i}`} name={name} />
           ))}
         </div>
       </div>
@@ -144,43 +132,43 @@ function TechTickerRow({ label, index, items, direction, duration }) {
   )
 }
 
-// ─── Section ─────────────────────────────────────────────────────────────────
-
 export function TechStack() {
+  const ref = useReveal()
+
   return (
     <section
-      id="tech-stack"
+      id="stack"
       aria-label="Technology Stack"
-      className="relative w-full pt-24 sm:pt-28 md:pt-32 pb-20 sm:pb-24 overflow-hidden"
+      className="w-full overflow-hidden"
+      ref={ref}
     >
-      {/* Section header — inside the page container */}
-      <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto mb-10 sm:mb-14">
-        <div className="max-w-xl">
-          <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#8B93A7]">
-            02 / STACK
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28 pb-10">
+        <div className="reveal flex items-end justify-between gap-6 mb-12">
+          <div>
+            <p className="s-label mb-4">02 / Stack</p>
+            <h2
+              className="text-[#E9E4D9] leading-[1.05] tracking-[-0.025em]"
+              style={{
+                fontFamily: 'Sora, system-ui, sans-serif',
+                fontWeight: 800,
+                fontSize: 'clamp(1.8rem, 4vw, 3.2rem)',
+              }}
+            >
+              Tools I build with.
+            </h2>
           </div>
-
-          <h2 className="mt-4 text-3xl sm:text-4xl md:text-[2.75rem] font-normal tracking-[-0.03em] text-[#F5F5F7] leading-tight">
-            Tools I build with.
-          </h2>
-
-          <p className="mt-4 text-sm sm:text-base text-[#8B93A7] font-normal leading-relaxed">
-            The languages, frameworks, and tools behind my projects.
+          <p
+            className="reveal reveal-d2 text-[#A09A8E] leading-relaxed max-w-xs text-right hidden sm:block"
+            style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '13px' }}
+          >
+            Hover a name for context. Hover a row to pause.
           </p>
         </div>
       </div>
 
-      {/* Four ticker rows — full viewport width, compact vertical rhythm */}
-      <div className="space-y-3 sm:space-y-4">
-        {ROWS.map((row) => (
-          <TechTickerRow
-            key={row.id}
-            label={row.label}
-            index={row.index}
-            items={row.items}
-            direction={row.direction}
-            duration={row.duration}
-          />
+      <div className="pb-20 sm:pb-28 space-y-2 border-t border-[#2C2924]">
+        {CATEGORIES.map((cat) => (
+          <TickerRow key={cat.id} {...cat} />
         ))}
       </div>
     </section>
