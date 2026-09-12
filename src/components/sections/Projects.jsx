@@ -59,7 +59,7 @@ const PROJECTS = [
     description:
       'A lost-and-found system built around Google Cloud Vision API. Explores how image recognition can match and identify lost item reports through computer vision rather than manual text search.',
     tags: ['Python', 'Google Vision API'],
-    link: 'https://github.com/Rudranshhhhh/Wox-Hack-2nd-year-trace',
+    link: 'https://github.com/Rudranshhhhh/Wox-Hack-2nd-year',
     linkLabel: 'GitHub →',
     note: null,
     color: '#7A7880',
