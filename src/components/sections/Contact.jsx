@@ -10,8 +10,8 @@ const LINKS = [
   },
   {
     label: 'LinkedIn',
-    href: 'www.linkedin.com/in/praveena-kiran-a8791b2b9',
-    meta: 'www.linkedin.com/in/praveena-kiran-a8791b2b9',
+    href: 'https://www.linkedin.com/in/praveena-kiran-a8791b2b9',
+    meta: 'https://www.linkedin.com/in/praveena-kiran-a8791b2b9',
     external: true,
   },
   {
