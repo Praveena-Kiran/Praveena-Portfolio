@@ -64,10 +64,14 @@ export function About() {
               }}
             >
               I'm also deeply interested in Japan — its technology ecosystem,
-              engineering culture, and language. As President of the{' '}
-              <span className="text-[#C47A2C] font-medium">Woxsen Japan Centre</span>,
-              I explore that through leadership, cultural exchange, and building
-              real connections between students and industry.
+              engineering culture, and language. I've passed{' '}
+              <span className="text-[#C47A2C] font-medium">JLPT N3</span>, and as
+              President of the{' '}
+              <span className="text-[#C47A2C] font-medium">
+                Woxsen Japan Centre
+              </span>
+              , I explore that interest through leadership, cultural exchange, and
+              building connections between students and industry. 
             </p>
           </div>
         </div>
@@ -95,6 +99,28 @@ export function About() {
                 </span>
               </div>
             ))}
+          </div>
+
+          {/* Language line — sits quietly below the grid */}
+          <div className="mt-8 pt-6 border-t border-[#2C2924] flex flex-wrap items-baseline gap-x-6 gap-y-1">
+            <span
+              className="font-mono text-[10px] text-[#3D3A34] uppercase tracking-widest shrink-0"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              Languages
+            </span>
+            <span
+              className="text-[13px] text-[#A09A8E]"
+              style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontWeight: 500 }}
+            >
+              Japanese · English · Telugu · Hindi
+            </span>
+            <span
+              className="text-[12px] text-[#3D3A34]"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              JLPT N3 — Passed
+            </span>
           </div>
         </div>
 
