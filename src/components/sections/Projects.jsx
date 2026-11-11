@@ -9,7 +9,7 @@ import imgLaundry  from '@/assets/laundry_sc.jpg'
    PROJECT SCREENSHOT PREVIEWS
 ───────────────────────────────────────────────────────────────────────────── */
 const PREVIEWS = {
-  lensflow:     <img src={imgLensFlow} alt="LensFlow application screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
+  lensflow:     <img src={imgLensFlow} alt="Wield application screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
   linuxmonitor: <img src={imgLinux}    alt="LinuxMonitor terminal screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
   trace:        <img src={imgTrace}    alt="Trace application screenshot"          loading="lazy" decoding="async" className="w-full h-auto block" />,
   smartlaundry: <img src={imgLaundry}  alt="Smart Laundry application screenshot" loading="lazy" decoding="async" className="w-full h-auto block" />,
@@ -43,7 +43,7 @@ const PROJECTS = [
   {
     id: 'lensflow',
     index: '02',
-    name: 'LensFlow',
+    name: 'Wield',
     year: '2026',
     type: 'Desktop Application',
     tagline: 'AI-powered gesture automation.',
@@ -56,7 +56,7 @@ const PROJECTS = [
       'Presentation Studio for hands-free PowerPoint control',
     ],
     tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6'],
-    link: 'https://github.com/Praveena-Kiran/LensFlow',
+    link: 'https://github.com/Praveena-Kiran/Wield',
     linkLabel: 'GitHub →',
     note: null,
     color: '#C47A2C',
