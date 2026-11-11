@@ -256,8 +256,9 @@
   transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
 }
 .proj-stage.is-active .proj-body {
-  /* Large enough for any content — never cuts off */
-  max-height: 600px;
+  /* Large enough for any content, including phones where the screenshot
+     stacks under the description (600px used to clip it there) */
+  max-height: 1600px;
 }
 
 /* Title nudge */

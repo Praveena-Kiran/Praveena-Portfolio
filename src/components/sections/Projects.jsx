@@ -20,14 +20,41 @@ const PREVIEWS = {
 ───────────────────────────────────────────────────────────────────────────── */
 const PROJECTS = [
   {
-    id: 'lensflow',
+    id: 'phoenix',
     index: '01',
+    name: 'Phoenix',
+    year: '2026',
+    type: 'AI / Systems',
+    tagline: 'Software that diagnoses and repairs itself.',
+    description:
+      'A self-healing software system that detects production incidents and fixes them automatically. I built the LLM engine: it reads incident evidence, diagnoses the root cause, generates multi-file code patches, and validates each patch in a sandbox before it is applied — with fallback patches, API error handling, and an evaluation harness to measure accuracy.',
+    role: 'Team project · I built the LLM diagnosis & patch engine (~4,400 lines, incl. tests)',
+    highlights: [
+      'Root-cause diagnosis from logs and incident evidence',
+      'Multi-file patch generation, validated in a sandbox',
+      'Evaluation harness + Pytest suite for reliability',
+    ],
+    tags: ['Python', 'LLMs', 'Groq API', 'Pytest', 'Docker'],
+    link: 'https://github.com/Rudranshhhhh/Phoenix-Self-Healing-Software-System',
+    linkLabel: 'GitHub →',
+    note: null,
+    color: '#D9653B',
+  },
+  {
+    id: 'lensflow',
+    index: '02',
     name: 'LensFlow',
     year: '2026',
     type: 'Desktop Application',
     tagline: 'AI-powered gesture automation.',
     description:
-      'A desktop application that turns hand gestures into system-level automation. Uses computer vision and gesture recognition to trigger configurable actions — launching apps, controlling files and websites, navigating presentations — without touching a keyboard.',
+      'A desktop accessibility app that turns hand gestures into system-level automation. Uses real-time hand tracking and gesture recognition to trigger configurable actions — launching apps, controlling files and websites, navigating presentations — without touching a keyboard.',
+    role: 'Lead developer · built the gesture engine and desktop UI',
+    highlights: [
+      'Real-time hand tracking with confidence-based recognition',
+      'Gesture stabilization to cut false triggers',
+      'Presentation Studio for hands-free PowerPoint control',
+    ],
     tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6'],
     link: 'https://github.com/Praveena-Kiran/LensFlow',
     linkLabel: 'GitHub →',
@@ -36,13 +63,19 @@ const PROJECTS = [
   },
   {
     id: 'linuxmonitor',
-    index: '02',
+    index: '03',
     name: 'LinuxMonitor',
     year: '2026',
     type: 'CLI Tool',
     tagline: 'System monitoring from the terminal.',
     description:
       'A Bash-based system monitor for Linux and WSL2 environments. Tracks CPU, memory, disk, load, processes, network connectivity, and service health — with configurable NORMAL / WARNING / CRITICAL thresholds directly in the terminal.',
+    role: 'Solo project',
+    highlights: [
+      'Live CPU, memory, disk, load and process tracking',
+      'NORMAL / WARNING / CRITICAL thresholds',
+      'Service health and connectivity checks',
+    ],
     tags: ['Bash', 'Linux', 'WSL2', 'Git'],
     link: 'https://github.com/Praveena-Kiran/LinuxMonitor',
     linkLabel: 'GitHub →',
@@ -51,14 +84,16 @@ const PROJECTS = [
   },
   {
     id: 'trace',
-    index: '03',
+    index: '04',
     name: 'Trace',
     year: '2025',
     type: 'Web Application',
     tagline: 'Image recognition for lost & found.',
     description:
-      'A lost-and-found system built around Google Cloud Vision API. Explores how image recognition can match and identify lost item reports through computer vision rather than manual text search.',
-    tags: ['Python', 'Google Vision API'],
+      'A full-stack campus lost-and-found platform. Students report and browse items, and Google Cloud Vision matches lost-item photos to found reports instead of relying on manual text search.',
+    role: 'Hackathon team project · I built the Flask backend, data models, and the React login, sign-up, report and browse pages',
+    highlights: null,
+    tags: ['React', 'Flask', 'MongoDB', 'Google Cloud Vision', 'JWT auth'],
     link: 'https://github.com/Rudranshhhhh/Wox-Hack-2nd-year',
     linkLabel: 'GitHub →',
     note: null,
@@ -66,14 +101,16 @@ const PROJECTS = [
   },
   {
     id: 'smartlaundry',
-    index: '04',
+    index: '05',
     name: 'Smart Laundry',
     year: '2025',
     type: 'Campus Application',
     tagline: 'Smarter shared washing machines.',
     description:
       'A laundry management application designed to help students use shared washing machines more efficiently — see machine availability, reduce unnecessary waiting, and turn a common campus friction point into a noticeably smoother experience.',
-    tags: ['Software Development'],
+    role: 'Team project',
+    highlights: null,
+    tags: ['Web App', 'Frontend + Backend'],
     link: 'https://github.com/Rudranshhhhh/laundry-web',
     linkLabel: 'GitHub →',
     note: null,
@@ -197,6 +234,32 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
                 {project.description}
               </p>
 
+              {/* My role */}
+              {project.role && (
+                <p
+                  className="text-[11px] uppercase tracking-wider text-[#C47A2C]"
+                  style={{ fontFamily: 'JetBrains Mono, monospace', lineHeight: 1.6 }}
+                >
+                  {project.role}
+                </p>
+              )}
+
+              {/* Highlights */}
+              {project.highlights && (
+                <ul className="flex flex-col gap-1.5">
+                  {project.highlights.map((h) => (
+                    <li
+                      key={h}
+                      className="flex gap-3 text-[#A09A8E] leading-snug"
+                      style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '14px' }}
+                    >
+                      <span className="text-[#C47A2C] shrink-0" aria-hidden="true">→</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
               {/* Tags */}
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((t) => (
@@ -223,7 +286,8 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
               </div>
             </div>
 
-            {/* Right: real screenshot */}
+            {/* Right: real screenshot (skipped when a project has none yet) */}
+            {PREVIEWS[project.id] && (
             <div className="proj-inline-preview lg:col-span-6 lg:col-start-7">
               <a
                 href={project.link}
@@ -241,6 +305,7 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
                 </div>
               </a>
             </div>
+            )}
           </div>
         </div>
       </div>

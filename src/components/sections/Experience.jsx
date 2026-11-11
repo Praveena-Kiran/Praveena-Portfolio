@@ -91,7 +91,8 @@ export function Experience() {
             As President, I coordinate N4 and N5 Japanese language initiatives,
             cultural programmes, student activities, faculty collaborations, and
             engagements with Japanese universities, organisations, and industry
-            partners.
+            partners — including a 120-hour JLPT N5 programme with NaRa Japan Hub
+            for 90+ students.
           </p>
           <p
             className="lg:col-span-5 lg:col-start-8 text-[#E9E4D9] leading-[1.8]"
@@ -99,7 +100,9 @@ export function Experience() {
           >
             From language campaigns and cultural events to international
             delegations and industry interactions, I work to create opportunities
-            for students to connect with Japan beyond the classroom.
+            for students to connect with Japan beyond the classroom. I also helped
+            deliver Kizuna Matsuri together with JETRO, The Japan Foundation and
+            Toshiba T&amp;D (India).
           </p>
         </div>
 

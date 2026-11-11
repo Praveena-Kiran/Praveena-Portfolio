@@ -7,17 +7,20 @@ const TECH_NOTES = {
   Java:            'Used for object-oriented systems and coursework projects.',
   JavaScript:      'Used for web interfaces and interactive UI.',
   SQL:             'Used for relational database queries and data management.',
-  React:           'Used to build this portfolio and web application UIs.',
-  HTML:            'Structure layer for all web projects.',
-  CSS:             'Styling and layout — including this site.',
+  Bash:            'Used to build LinuxMonitor, a live terminal system monitor.',
+  React:           'Used to build this portfolio and the Trace web app.',
+  Flask:           'Used for the Trace backend: REST API, auth and data models.',
+  'HTML / CSS':    'Structure and styling for all web projects — including this site.',
+  PySide6:         'Used for the LensFlow desktop interface.',
   OpenCV:          'Used in LensFlow for real-time computer vision pipelines.',
   MediaPipe:       'Used in LensFlow for hand landmark detection and gesture recognition.',
-  TensorFlow:      'Used for building and experimenting with ML models.',
-  PyTorch:         'Used for deep learning experimentation.',
+  'LLM APIs':      'Used in Phoenix (Groq) for root-cause diagnosis and code patch generation.',
+  'Google Vision': 'Used in Trace to match lost-item photos.',
+  Pytest:          'Used to test and evaluate the Phoenix LLM engine.',
   Linux:           'Daily development environment; used in LinuxMonitor.',
   Git:             'Version control across all projects.',
-  GitHub:          'Hosting and collaboration for open-source work.',
-  AWS:             'Cloud infrastructure and deployment.',
+  GitHub:          'Hosting and collaboration for team projects.',
+  AWS:             'Cloud computing fundamentals (certified, Udemy).',
   MySQL:           'Relational database used in web applications.',
   MongoDB:         'Document database used for flexible data storage.',
 }
@@ -28,23 +31,23 @@ const CATEGORIES = [
     index: '01',
     label: 'Languages',
     note: 'What I write in.',
-    items: ['Python', 'Java', 'JavaScript', 'SQL'],
+    items: ['Python', 'Java', 'JavaScript', 'SQL', 'Bash'],
     dir: 'l', dur: '30s',
   },
   {
     id: 'web',
     index: '02',
-    label: 'Web',
-    note: 'How I build interfaces.',
-    items: ['React', 'HTML', 'CSS'],
-    dir: 'r', dur: '22s',
+    label: 'Web & Apps',
+    note: 'How I build interfaces and backends.',
+    items: ['React', 'Flask', 'HTML / CSS', 'PySide6'],
+    dir: 'r', dur: '24s',
   },
   {
     id: 'ai',
     index: '03',
     label: 'AI / Vision',
-    note: 'Core of LensFlow and Trace.',
-    items: ['OpenCV', 'MediaPipe', 'TensorFlow', 'PyTorch'],
+    note: 'Core of Phoenix, LensFlow and Trace.',
+    items: ['OpenCV', 'MediaPipe', 'LLM APIs', 'Google Vision', 'Pytest'],
     dir: 'l', dur: '28s',
   },
   {
@@ -116,8 +119,9 @@ function TickerRow({ label, index, note, items, dir, dur }) {
           maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
         }}
-        aria-label={`${label}: ${items.join(', ')}`}
       >
+        {/* Screen readers get one clean list; the looping visual copy is hidden */}
+        <span className="sr-only">{`${label}: ${items.join(', ')}`}</span>
         <div
           className={`inline-flex items-center ${animClass} will-change-transform`}
           style={{ '--dur': dur }}
