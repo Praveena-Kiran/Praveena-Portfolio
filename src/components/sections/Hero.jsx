@@ -301,12 +301,43 @@ export function Hero() {
               that actually work.
             </p>
 
+            {/* Availability — the key fact for Japan recruiters */}
+            <ul
+              className="flex flex-wrap gap-x-5 gap-y-2 mb-7 text-[12px] text-[#E9E4D9]"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+              aria-label="Availability"
+            >
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
+                Eligible to work in Japan (Permanent Resident)
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
+                JLPT N3
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
+                Open to 2028 new-grad roles &amp; internships
+              </li>
+            </ul>
+
             <div className="flex flex-wrap gap-3">
               <a
                 href="#projects"
                 className="btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C47A2C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1B1915]"
               >
                 See Work
+              </a>
+              <a
+                href="/Praveena_Kiran_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
+              >
+                Resume
+                <svg className="btn-arrow w-3.5 h-3.5" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <path d="M5 1v7M2 5.5L5 8.5 8 5.5M1.5 9.5h7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </a>
               <a
                 href="https://github.com/Praveena-Kiran"

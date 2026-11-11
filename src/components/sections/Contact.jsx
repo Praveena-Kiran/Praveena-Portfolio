@@ -16,9 +16,15 @@ const LINKS = [
   },
   {
     label: 'Email',
-    href: 'mailto:hipraveenakiran@gamil.com',
+    href: 'mailto:hipraveenakiran@gmail.com',
     meta: 'hipraveenakiran@gmail.com',
     external: false,
+  },
+  {
+    label: 'Resume',
+    href: '/Praveena_Kiran_Resume.pdf',
+    meta: 'PDF · 1 page',
+    external: true,
   },
 ]
 

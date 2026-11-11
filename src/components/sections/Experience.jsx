@@ -85,22 +85,33 @@ export function Experience() {
         {/* ── Description — full width at bottom ───────────────────────── */}
         <div className="reveal reveal-d2 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <p
-            className="lg:col-span-6 text-[#E9E4D9] leading-[1.8]"
-            style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '15px' }}
+            className="lg:col-span-5 text-[#E9E4D9] leading-[1.6]"
+            style={{
+              fontFamily: 'Sora, system-ui, sans-serif',
+              fontWeight: 700,
+              fontSize: 'clamp(1.1rem, 1.8vw, 1.4rem)',
+              letterSpacing: '-0.01em',
+            }}
           >
-            As President, I coordinate N4 and N5 Japanese language initiatives,
-            cultural programmes, student activities, faculty collaborations, and
-            engagements with Japanese universities, organisations, and industry
-            partners.
+            I oversee and coordinate the Centre's work connecting students with Japan.
           </p>
-          <p
-            className="lg:col-span-5 lg:col-start-8 text-[#E9E4D9] leading-[1.8]"
-            style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '15px' }}
-          >
-            From language campaigns and cultural events to international
-            delegations and industry interactions, I work to create opportunities
-            for students to connect with Japan beyond the classroom.
-          </p>
+          <ul className="lg:col-span-6 lg:col-start-7 flex flex-col gap-3">
+            {[
+              'Oversee activities for a 200+ member student community',
+              'Coordinated a 120-hour JLPT N5 programme with NaRa Japan Hub for 90+ students',
+              'Coordinate visits from 15+ delegations from Japanese universities, organisations and companies',
+              'Helped deliver Kizuna Matsuri with The Japan Foundation and Toshiba T&D (India)',
+            ].map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-[#E9E4D9] leading-[1.7]"
+                style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '15px' }}
+              >
+                <span className="text-[#C47A2C] shrink-0" aria-hidden="true">→</span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
       </div>
