@@ -52,8 +52,8 @@ export function About() {
               I'm a third-year Computer Science Engineering student at Woxsen
               University, interested in the intersection of software, AI, and
               real-world systems. I like building things that are useful outside
-              of a classroom — from computer-vision pipelines and gesture
-              automation to Linux monitoring tools and everyday applications.
+              of a classroom — from computer-vision pipelines and hands-free,
+              voice-controlled accessibility apps to Linux monitoring tools and everyday applications.
             </p>
             <p
               className="text-[#E9E4D9] leading-[1.8]"

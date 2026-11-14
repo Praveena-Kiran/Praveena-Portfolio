@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
-import imgLensFlow from '@/assets/lensflow_sc.jpg'
+import imgWield    from '@/assets/wield_sc.jpg'
 import imgLinux    from '@/assets/linux_sc.jpg'
 import imgTrace    from '@/assets/trace_sc.jpg'
 import imgLaundry  from '@/assets/laundry_sc.jpg'
@@ -9,7 +9,7 @@ import imgLaundry  from '@/assets/laundry_sc.jpg'
    PROJECT SCREENSHOT PREVIEWS
 ───────────────────────────────────────────────────────────────────────────── */
 const PREVIEWS = {
-  lensflow:     <img src={imgLensFlow} alt="Wield application screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
+  wield:        <img src={imgWield}    alt="Wield application screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
   linuxmonitor: <img src={imgLinux}    alt="LinuxMonitor terminal screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
   trace:        <img src={imgTrace}    alt="Trace application screenshot"          loading="lazy" decoding="async" className="w-full h-auto block" />,
   smartlaundry: <img src={imgLaundry}  alt="Smart Laundry application screenshot" loading="lazy" decoding="async" className="w-full h-auto block" />,
@@ -41,23 +41,26 @@ const PROJECTS = [
     color: '#D9653B',
   },
   {
-    id: 'lensflow',
+    id: 'wield',
     index: '02',
     name: 'Wield',
     year: '2026',
-    type: 'Desktop Application',
-    tagline: 'AI-powered gesture automation.',
+    type: 'Desktop Application · v1.0.0',
+    tagline: 'Control your computer with gestures and your voice.',
     description:
-      'A desktop accessibility app that turns hand gestures into system-level automation. Uses real-time hand tracking and gesture recognition to trigger configurable actions — launching apps, controlling files and websites, navigating presentations — without touching a keyboard.',
-    role: 'Lead developer · built the gesture engine and desktop UI',
+      'A Windows accessibility app, released as v1.0.0, that lets you use your computer and PowerPoint hands-free. Show a hand gesture, draw a motion in the air, or say "Hey Wield, next slide" — and choose which of these triggers each action, so it fits the way you move. Voice runs fully offline, and the camera and microphone stay off until you press Start.',
+    role: 'Lead developer · built the gesture, motion and voice engines, the desktop UI and the release pipeline',
     highlights: [
-      'Real-time hand tracking with confidence-based recognition',
-      'Gesture stabilization to cut false triggers',
-      'Presentation Studio for hands-free PowerPoint control',
+      'Real-time hand tracking with confidence-based recognition and a confirm gesture to cut false triggers',
+      'Record your own gestures and motions, matched with DTW over fingertip or palm paths',
+      'Offline "Hey Wield" voice commands (Vosk), plus sound cues and an on-screen overlay',
+      '172 automated tests and GitHub Actions CI that builds and self-tests every release',
     ],
-    tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6'],
+    tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6', 'Vosk', 'GitHub Actions'],
     link: 'https://github.com/Praveena-Kiran/Wield',
     linkLabel: 'GitHub →',
+    live: 'https://praveena-kiran.github.io/Wield/',
+    liveLabel: 'Live site · Download →',
     note: null,
     color: '#C47A2C',
   },
@@ -283,6 +286,22 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
                     <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="proj-view-link inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#C47A2C] border border-[#C47A2C]/50 px-4 py-2 hover:border-[#C47A2C] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
+                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    aria-label={`Open the ${project.name} website`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {project.liveLabel}
+                    <svg className="proj-view-arrow w-3 h-3" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                      <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
 
