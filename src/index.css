@@ -490,3 +490,21 @@
   .proj-view-link { opacity: 1 !important; transform: none !important; transition: none !important; }
   .proj-line  { transition: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   JAPANESE TYPOGRAPHY — applies when <html lang="ja"> (language toggle)
+═══════════════════════════════════════════════════════════════════════ */
+:lang(ja) body {
+  word-break: auto-phrase;      /* break lines between natural phrases (Chrome 119+) */
+  line-break: strict;
+}
+/* Tight negative tracking and very short line-heights suit Latin display type
+   but crowd kanji — relax them for Japanese headings. */
+:lang(ja) h2,
+:lang(ja) h3 {
+  letter-spacing: 0 !important;
+  line-height: 1.3 !important;
+}
+:lang(ja) .s-label {
+  letter-spacing: 0.08em;
+}

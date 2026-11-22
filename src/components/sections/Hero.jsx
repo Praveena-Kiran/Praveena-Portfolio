@@ -1,10 +1,51 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react'
 import portraitSrc from '@/assets/ferris_wheel.jpg'
+import { useLang } from '@/i18n/LanguageContext'
 
-const AREAS = [
-  'AI', 'Computer Vision', 'Automation',
-  'Linux / Systems', 'Robotics', 'Japan',
-]
+const COPY = {
+  en: {
+    sectionLabel: 'Introduction',
+    school: 'CSE · Woxsen University',
+    building: 'Currently building',
+    statementBefore: 'I build systems that make technology feel less ',
+    statementAccent: 'complicated.',
+    description:
+      'Computer Science Engineering student building AI-powered software, automation tools, and computer-vision systems — practical things that actually work.',
+    availabilityLabel: 'Availability',
+    availability: [
+      'Eligible to work in Japan (Permanent Resident)',
+      'JLPT N3',
+      'Open to 2028 new-grad roles & internships',
+    ],
+    seeWork: 'See Work',
+    resume: 'Resume',
+    interests: 'Interests',
+    areas: ['AI', 'Computer Vision', 'Automation', 'Linux / Systems', 'Robotics', 'Japan'],
+    scroll: 'Scroll',
+    scrollAria: 'Scroll to About',
+  },
+  ja: {
+    sectionLabel: '自己紹介',
+    school: 'コンピュータサイエンス工学 · Woxsen大学',
+    building: '開発中',
+    statementBefore: 'テクノロジーを、',
+    statementAccent: 'もっとシンプルに。',
+    description:
+      'AIを活用したソフトウェア、自動化ツール、コンピュータビジョンのシステムを開発している、コンピュータサイエンス工学専攻の学生です。実際に役立つものづくりを大切にしています。',
+    availabilityLabel: '応募条件',
+    availability: [
+      '日本での就労が可能（永住者）',
+      'JLPT N3',
+      '2028年卒業予定 · 新卒採用・インターンシップを希望',
+    ],
+    seeWork: '作品を見る',
+    resume: 'レジュメ（英語）',
+    interests: '関心分野',
+    areas: ['AI', 'コンピュータビジョン', '自動化', 'Linux／システム', 'ロボティクス', '日本'],
+    scroll: 'スクロール',
+    scrollAria: 'プロフィールへ移動',
+  },
+}
 
 // ─── InteractiveName ─────────────────────────────────────────────────────────
 function InteractiveName({ text, className, style }) {
@@ -64,6 +105,8 @@ function InteractiveName({ text, className, style }) {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 export function Hero() {
+  const { lang } = useLang()
+  const c = COPY[lang]
   const lineRef     = useRef(null)
   const nameRef     = useRef(null)   // wrapper around h1 — drives portrait
   const portraitRef = useRef(null)
@@ -130,7 +173,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      aria-label="Introduction"
+      aria-label={c.sectionLabel}
       className="relative w-full flex flex-col"
       style={{ minHeight: 'calc(100svh - 3.5rem)', paddingTop: '3.5rem' }}
     >
@@ -140,10 +183,10 @@ export function Hero() {
         style={{ animationDelay: '60ms' }}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#2C2924]">
-          <span className="s-label">CSE · Woxsen University</span>
+          <span className="s-label">{c.school}</span>
           <span className="s-label flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] animate-pulse inline-block" aria-hidden="true" />
-            Currently building
+            {c.building}
           </span>
         </div>
       </div>
@@ -283,9 +326,8 @@ export function Hero() {
                 fontSize: 'clamp(1.1rem, 2.3vw, 2rem)',
               }}
             >
-              I build systems that make technology
-              feel less{' '}
-              <em className="not-italic text-[#C47A2C]">complicated.</em>
+              {c.statementBefore}
+              <em className="not-italic text-[#C47A2C]">{c.statementAccent}</em>
             </p>
 
             <p
@@ -296,29 +338,21 @@ export function Hero() {
                 fontSize: '15px',
               }}
             >
-              Computer Science Engineering student building AI-powered software,
-              automation tools, and computer-vision systems — practical things
-              that actually work.
+              {c.description}
             </p>
 
             {/* Availability — the key fact for Japan recruiters */}
             <ul
               className="flex flex-wrap gap-x-5 gap-y-2 mb-7 text-[12px] text-[#E9E4D9]"
               style={{ fontFamily: 'JetBrains Mono, monospace' }}
-              aria-label="Availability"
+              aria-label={c.availabilityLabel}
             >
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
-                Eligible to work in Japan (Permanent Resident)
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
-                JLPT N3
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
-                Open to 2028 new-grad roles &amp; internships
-              </li>
+              {c.availability.map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C47A2C] inline-block" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
             </ul>
 
             <div className="flex flex-wrap gap-3">
@@ -326,7 +360,7 @@ export function Hero() {
                 href="#projects"
                 className="btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C47A2C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1B1915]"
               >
-                See Work
+                {c.seeWork}
               </a>
               <a
                 href="/Praveena_Kiran_Resume.pdf"
@@ -334,7 +368,7 @@ export function Hero() {
                 rel="noopener noreferrer"
                 className="btn-ghost focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
               >
-                Resume
+                {c.resume}
                 <svg className="btn-arrow w-3.5 h-3.5" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                   <path d="M5 1v7M2 5.5L5 8.5 8 5.5M1.5 9.5h7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -355,8 +389,8 @@ export function Hero() {
 
           {/* Right: interests */}
           <div className="lg:col-span-4 flex flex-col justify-end gap-3">
-            <p className="s-label mb-1">Interests</p>
-            {AREAS.map((a, i) => (
+            <p className="s-label mb-1">{c.interests}</p>
+            {c.areas.map((a, i) => (
               <div key={a} className="flex items-center gap-3 group cursor-default">
                 <span
                   className="font-mono text-[9px] text-[#3D3A34] group-hover:text-[#C47A2C] transition-colors shrink-0"
@@ -384,12 +418,12 @@ export function Hero() {
         <a
           href="#about"
           className="flex items-center gap-3 text-[#3D3A34] hover:text-[#A09A8E] transition-colors w-fit focus-visible:outline-none"
-          aria-label="Scroll to About"
+          aria-label={c.scrollAria}
         >
           <svg className="animate-bob w-4 h-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M8 2v12M2 10l6 6 6-6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span className="s-label">Scroll</span>
+          <span className="s-label">{c.scroll}</span>
         </a>
       </div>
     </section>

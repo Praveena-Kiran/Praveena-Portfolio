@@ -1,6 +1,8 @@
 import React from 'react'
+import { useLang } from '@/i18n/LanguageContext'
 
 export function Footer() {
+  const { lang } = useLang()
   return (
     <footer className="w-full border-t border-[#2C2924]" role="contentinfo">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -31,7 +33,7 @@ export function Footer() {
             className="font-mono text-[10px] text-[#3D3A34] uppercase tracking-widest hover:text-[#A09A8E] transition-colors"
             style={{ fontFamily: 'JetBrains Mono, monospace' }}
           >
-            Contact
+            {lang === 'ja' ? '連絡先' : 'Contact'}
           </a>
           <span
             className="font-mono text-[10px] text-[#3D3A34] uppercase tracking-widest"
