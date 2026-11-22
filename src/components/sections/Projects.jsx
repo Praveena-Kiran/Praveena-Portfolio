@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
-import imgLensFlow from '@/assets/lensflow_sc.jpg'
+import imgWield    from '@/assets/wield_sc.jpg'
 import imgLinux    from '@/assets/linux_sc.jpg'
 import imgTrace    from '@/assets/trace_sc.jpg'
 import imgLaundry  from '@/assets/laundry_sc.jpg'
@@ -18,6 +18,7 @@ const COPY = {
     projectAria: (name, open) => `Project: ${name}${open ? ', expanded' : ''}`,
     toggleAria: (name, open) => `${open ? 'Collapse' : 'Expand'} ${name}`,
     githubAria: (name) => `View ${name} on GitHub`,
+    liveAria: (name) => `Open the ${name} website`,
     screenshotAlt: (name, kind) => `${name} ${kind} screenshot`,
   },
   ja: {
@@ -28,6 +29,7 @@ const COPY = {
     projectAria: (name, open) => `プロジェクト：${name}${open ? '（展開中）' : ''}`,
     toggleAria: (name, open) => `${name}を${open ? '閉じる' : '開く'}`,
     githubAria: (name) => `${name}をGitHubで見る`,
+    liveAria: (name) => `${name}のWebサイトを開く`,
     screenshotAlt: (name) => `${name}のスクリーンショット`,
   },
 }
@@ -36,7 +38,7 @@ const COPY = {
    PROJECT SCREENSHOT PREVIEWS
 ───────────────────────────────────────────────────────────────────────────── */
 const PREVIEW_IMAGES = {
-  lensflow:     { src: imgLensFlow, name: 'Wield',         kind: 'application' },
+  wield:        { src: imgWield,    name: 'Wield',         kind: 'application' },
   linuxmonitor: { src: imgLinux,    name: 'LinuxMonitor',  kind: 'terminal' },
   trace:        { src: imgTrace,    name: 'Trace',         kind: 'application' },
   smartlaundry: { src: imgLaundry,  name: 'Smart Laundry', kind: 'application' },
@@ -72,17 +74,19 @@ const PROJECTS_JA = {
       '信頼性を高める評価ハーネスとPytestテスト',
     ],
   },
-  lensflow: {
-    type: 'デスクトップアプリ',
-    tagline: 'AIを活用したジェスチャー自動化。',
+  wield: {
+    type: 'デスクトップアプリ · v1.0.0',
+    tagline: 'ジェスチャーと声で、パソコンを操作。',
     description:
-      '手のジェスチャーをシステム操作に変える、アクセシビリティのためのデスクトップアプリです。リアルタイムのハンドトラッキングとジェスチャー認識により、アプリの起動、ファイルやWebサイトの操作、プレゼンテーションの進行などを、キーボードに触れずに行えます。',
-    role: 'リード開発者 · ジェスチャーエンジンとデスクトップUIを開発',
+      'v1.0.0としてリリースした、Windows向けのアクセシビリティアプリです。パソコンやPowerPointをハンズフリーで操作できます。手のジェスチャーを見せる、空中にモーションを描く、または「Hey Wield, next slide」と話しかける——どの操作にどのトリガーを使うかを自分で選べるので、一人ひとりの動き方に合わせられます。音声認識は完全にオフラインで動作し、カメラとマイクは「Start」を押すまでオフのままです。',
+    role: 'リード開発者 · ジェスチャー・モーション・音声エンジン、デスクトップUI、リリースパイプラインを開発',
     highlights: [
-      '信頼度に基づくリアルタイムのハンドトラッキング',
-      '誤作動を減らすジェスチャー安定化処理',
-      'PowerPointをハンズフリーで操作できる「Presentation Studio」',
+      '信頼度に基づくリアルタイムのハンドトラッキングと、誤作動を防ぐ確認ジェスチャー',
+      '自分だけのジェスチャーやモーションを登録し、指先や手のひらの軌跡をDTWで照合',
+      'オフラインで動く「Hey Wield」音声コマンド（Vosk）、効果音と画面上の表示',
+      '172件の自動テストと、リリースごとにビルドとセルフテストを行うGitHub ActionsのCI',
     ],
+    liveLabel: 'ライブサイト · ダウンロード →',
   },
   linuxmonitor: {
     type: 'CLIツール',
@@ -140,23 +144,26 @@ const PROJECTS = [
     color: '#D9653B',
   },
   {
-    id: 'lensflow',
+    id: 'wield',
     index: '02',
     name: 'Wield',
     year: '2026',
-    type: 'Desktop Application',
-    tagline: 'AI-powered gesture automation.',
+    type: 'Desktop Application · v1.0.0',
+    tagline: 'Control your computer with gestures and your voice.',
     description:
-      'A desktop accessibility app that turns hand gestures into system-level automation. Uses real-time hand tracking and gesture recognition to trigger configurable actions — launching apps, controlling files and websites, navigating presentations — without touching a keyboard.',
-    role: 'Lead developer · built the gesture engine and desktop UI',
+      'A Windows accessibility app, released as v1.0.0, that lets you use your computer and PowerPoint hands-free. Show a hand gesture, draw a motion in the air, or say "Hey Wield, next slide" — and choose which of these triggers each action, so it fits the way you move. Voice runs fully offline, and the camera and microphone stay off until you press Start.',
+    role: 'Lead developer · built the gesture, motion and voice engines, the desktop UI and the release pipeline',
     highlights: [
-      'Real-time hand tracking with confidence-based recognition',
-      'Gesture stabilization to cut false triggers',
-      'Presentation Studio for hands-free PowerPoint control',
+      'Real-time hand tracking with confidence-based recognition and a confirm gesture to cut false triggers',
+      'Record your own gestures and motions, matched with DTW over fingertip or palm paths',
+      'Offline "Hey Wield" voice commands (Vosk), plus sound cues and an on-screen overlay',
+      '172 automated tests and GitHub Actions CI that builds and self-tests every release',
     ],
-    tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6'],
+    tags: ['Python', 'OpenCV', 'MediaPipe', 'PySide6', 'Vosk', 'GitHub Actions'],
     link: 'https://github.com/Praveena-Kiran/Wield',
     linkLabel: 'GitHub →',
+    live: 'https://praveena-kiran.github.io/Wield/',
+    liveLabel: 'Live site · Download →',
     note: null,
     color: '#C47A2C',
   },
@@ -382,6 +389,22 @@ function ProjectStage({ project, isActive, isDimmed, onActivate, copy }) {
                     <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="proj-view-link inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#C47A2C] border border-[#C47A2C]/50 px-4 py-2 hover:border-[#C47A2C] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
+                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    aria-label={copy.liveAria(project.name)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {project.liveLabel}
+                    <svg className="proj-view-arrow w-3 h-3" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                      <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
 

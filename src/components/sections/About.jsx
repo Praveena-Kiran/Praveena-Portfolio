@@ -10,7 +10,7 @@ const COPY = {
     eyebrow: '01 / About',
     heading: ['Builder.', 'Student.', 'Japan enthusiast.'],
     p1: [
-      { t: "I'm a third-year Computer Science Engineering student at Woxsen University, interested in the intersection of software, AI, and real-world systems. I like building things that are useful outside of a classroom — from computer-vision pipelines and gesture automation to Linux monitoring tools and everyday applications." },
+      { t: "I'm a third-year Computer Science Engineering student at Woxsen University, interested in the intersection of software, AI, and real-world systems. I like building things that are useful outside of a classroom — from computer-vision pipelines and hands-free, voice-controlled accessibility apps to Linux monitoring tools and everyday applications." },
     ],
     p2: [
       { t: "I'm also deeply interested in Japan — its technology ecosystem, engineering culture, and language. I've passed " },
@@ -33,7 +33,7 @@ const COPY = {
     eyebrow: '01 / プロフィール',
     heading: ['つくる人。', '学ぶ人。', '日本とつながる人。'],
     p1: [
-      { t: 'Woxsen大学のコンピュータサイエンス工学科に在籍する3年生です。ソフトウェア、AI、そして現実のシステムが交わる領域に関心があります。コンピュータビジョンのパイプラインやジェスチャーによる自動化から、Linuxの監視ツールや日常で使うアプリケーションまで、教室の外でも役に立つものをつくるのが好きです。' },
+      { t: 'Woxsen大学のコンピュータサイエンス工学科に在籍する3年生です。ソフトウェア、AI、そして現実のシステムが交わる領域に関心があります。コンピュータビジョンのパイプラインや、ハンズフリー・音声で操作できるアクセシビリティアプリから、Linuxの監視ツールや日常で使うアプリケーションまで、教室の外でも役に立つものをつくるのが好きです。' },
     ],
     p2: [
       { t: '日本のテクノロジー業界やエンジニアリング文化、そして日本語にも強い関心があります。' },
