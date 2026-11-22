@@ -1,18 +1,121 @@
 import React, { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
+import { useLang } from '@/i18n/LanguageContext'
 import imgWield    from '@/assets/wield_sc.jpg'
 import imgLinux    from '@/assets/linux_sc.jpg'
 import imgTrace    from '@/assets/trace_sc.jpg'
 import imgLaundry  from '@/assets/laundry_sc.jpg'
 
 /* ─────────────────────────────────────────────────────────────────────────────
+   UI COPY
+───────────────────────────────────────────────────────────────────────────── */
+const COPY = {
+  en: {
+    sectionLabel: 'Projects',
+    eyebrow: '03 / Projects',
+    heading: "Things I've built.",
+    hint: 'Select a project to expand it.',
+    projectAria: (name, open) => `Project: ${name}${open ? ', expanded' : ''}`,
+    toggleAria: (name, open) => `${open ? 'Collapse' : 'Expand'} ${name}`,
+    githubAria: (name) => `View ${name} on GitHub`,
+    liveAria: (name) => `Open the ${name} website`,
+    screenshotAlt: (name, kind) => `${name} ${kind} screenshot`,
+  },
+  ja: {
+    sectionLabel: 'プロジェクト',
+    eyebrow: '03 / プロジェクト',
+    heading: 'これまでにつくったもの。',
+    hint: 'プロジェクトを選択すると詳細が開きます。',
+    projectAria: (name, open) => `プロジェクト：${name}${open ? '（展開中）' : ''}`,
+    toggleAria: (name, open) => `${name}を${open ? '閉じる' : '開く'}`,
+    githubAria: (name) => `${name}をGitHubで見る`,
+    liveAria: (name) => `${name}のWebサイトを開く`,
+    screenshotAlt: (name) => `${name}のスクリーンショット`,
+  },
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
    PROJECT SCREENSHOT PREVIEWS
 ───────────────────────────────────────────────────────────────────────────── */
-const PREVIEWS = {
-  wield:        <img src={imgWield}    alt="Wield application screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
-  linuxmonitor: <img src={imgLinux}    alt="LinuxMonitor terminal screenshot"      loading="lazy" decoding="async" className="w-full h-auto block" />,
-  trace:        <img src={imgTrace}    alt="Trace application screenshot"          loading="lazy" decoding="async" className="w-full h-auto block" />,
-  smartlaundry: <img src={imgLaundry}  alt="Smart Laundry application screenshot" loading="lazy" decoding="async" className="w-full h-auto block" />,
+const PREVIEW_IMAGES = {
+  wield:        { src: imgWield,    name: 'Wield',         kind: 'application' },
+  linuxmonitor: { src: imgLinux,    name: 'LinuxMonitor',  kind: 'terminal' },
+  trace:        { src: imgTrace,    name: 'Trace',         kind: 'application' },
+  smartlaundry: { src: imgLaundry,  name: 'Smart Laundry', kind: 'application' },
+}
+
+function Preview({ id, copy }) {
+  const img = PREVIEW_IMAGES[id]
+  if (!img) return null
+  return (
+    <img
+      src={img.src}
+      alt={copy.screenshotAlt(img.name, img.kind)}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-auto block"
+    />
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   JAPANESE PROJECT TEXT — merged over PROJECTS by id when lang === 'ja'
+───────────────────────────────────────────────────────────────────────────── */
+const PROJECTS_JA = {
+  phoenix: {
+    type: 'AI／システム',
+    tagline: '自ら診断し、自ら修復するソフトウェア。',
+    description:
+      '本番環境の障害を検知し、自動で修正する自己修復型のソフトウェアシステムです。私はLLMエンジンを担当しました。障害の情報を読み取って根本原因を診断し、複数ファイルにまたがるコードパッチを生成して、適用前にサンドボックスで各パッチを検証します。フォールバック用のパッチ、APIエラー処理、精度を測る評価ハーネスも実装しました。',
+    role: 'チームプロジェクト · LLMによる診断・パッチ生成エンジンを担当（テスト含め約4,400行）',
+    highlights: [
+      'ログや障害情報からの根本原因診断',
+      '複数ファイルのパッチ生成とサンドボックスでの検証',
+      '信頼性を高める評価ハーネスとPytestテスト',
+    ],
+  },
+  wield: {
+    type: 'デスクトップアプリ · v1.0.0',
+    tagline: 'ジェスチャーと声で、パソコンを操作。',
+    description:
+      'v1.0.0としてリリースした、Windows向けのアクセシビリティアプリです。パソコンやPowerPointをハンズフリーで操作できます。手のジェスチャーを見せる、空中にモーションを描く、または「Hey Wield, next slide」と話しかける——どの操作にどのトリガーを使うかを自分で選べるので、一人ひとりの動き方に合わせられます。音声認識は完全にオフラインで動作し、カメラとマイクは「Start」を押すまでオフのままです。',
+    role: 'リード開発者 · ジェスチャー・モーション・音声エンジン、デスクトップUI、リリースパイプラインを開発',
+    highlights: [
+      '信頼度に基づくリアルタイムのハンドトラッキングと、誤作動を防ぐ確認ジェスチャー',
+      '自分だけのジェスチャーやモーションを登録し、指先や手のひらの軌跡をDTWで照合',
+      'オフラインで動く「Hey Wield」音声コマンド（Vosk）、効果音と画面上の表示',
+      '172件の自動テストと、リリースごとにビルドとセルフテストを行うGitHub ActionsのCI',
+    ],
+    liveLabel: 'ライブサイト · ダウンロード →',
+  },
+  linuxmonitor: {
+    type: 'CLIツール',
+    tagline: 'ターミナルからシステムを監視。',
+    description:
+      'LinuxおよびWSL2環境向けの、Bashで作ったシステムモニターです。CPU、メモリ、ディスク、負荷、プロセス、ネットワーク接続、サービスの状態を監視し、NORMAL／WARNING／CRITICALのしきい値をターミナル上で設定できます。',
+    role: '個人プロジェクト',
+    highlights: [
+      'CPU・メモリ・ディスク・負荷・プロセスをリアルタイムで監視',
+      'NORMAL／WARNING／CRITICALのしきい値設定',
+      'サービスの稼働状況と接続性のチェック',
+    ],
+  },
+  trace: {
+    type: 'Webアプリ',
+    tagline: '画像認識で落とし物を探す。',
+    description:
+      'キャンパス向けのフルスタックな落とし物管理プラットフォームです。学生が落とし物を登録・検索でき、手作業のテキスト検索に頼らず、Google Cloud Visionが落とし物の写真と拾得物の報告を照合します。',
+    role: 'ハッカソンのチームプロジェクト · Flaskバックエンド、データモデル、Reactのログイン・新規登録・報告・一覧ページを担当',
+    tags: ['React', 'Flask', 'MongoDB', 'Google Cloud Vision', 'JWT認証'],
+  },
+  smartlaundry: {
+    type: 'キャンパス向けアプリ',
+    tagline: '共用の洗濯機を、もっと賢く。',
+    description:
+      '学生が共用の洗濯機をもっと効率よく使えるようにする洗濯管理アプリです。洗濯機の空き状況を確認でき、無駄な待ち時間を減らして、キャンパスでよくある不便をスムーズな体験に変えます。',
+    role: 'チームプロジェクト',
+    tags: ['Webアプリ', 'フロントエンド＋バックエンド'],
+  },
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -124,7 +227,7 @@ const PROJECTS = [
 /* ─────────────────────────────────────────────────────────────────────────────
    PROJECT ROW / STAGE
 ───────────────────────────────────────────────────────────────────────────── */
-function ProjectStage({ project, isActive, isDimmed, onActivate }) {
+function ProjectStage({ project, isActive, isDimmed, onActivate, copy }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
@@ -142,7 +245,7 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
     <article
       className={stageClass}
       aria-expanded={isActive}
-      aria-label={`Project: ${project.name}${isActive ? ', expanded' : ''}`}
+      aria-label={copy.projectAria(project.name, isActive)}
     >
       {/* Accent line */}
       <div className="proj-line" aria-hidden="true" />
@@ -154,7 +257,7 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
         onKeyDown={handleKeyDown}
         role="button"
         tabIndex={0}
-        aria-label={`${isActive ? 'Collapse' : 'Expand'} ${project.name}`}
+        aria-label={copy.toggleAria(project.name, isActive)}
       >
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1 min-w-0">
@@ -278,7 +381,7 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
                   rel="noopener noreferrer"
                   className="proj-view-link inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#A09A8E] border border-[#2C2924] px-4 py-2 hover:border-[#C47A2C]/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
                   style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                  aria-label={`View ${project.name} on GitHub`}
+                  aria-label={copy.githubAria(project.name)}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {project.linkLabel}
@@ -293,7 +396,7 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
                     rel="noopener noreferrer"
                     className="proj-view-link inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#C47A2C] border border-[#C47A2C]/50 px-4 py-2 hover:border-[#C47A2C] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
                     style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                    aria-label={`Open the ${project.name} website`}
+                    aria-label={copy.liveAria(project.name)}
                     onClick={(e) => e.stopPropagation()}
                   >
                     {project.liveLabel}
@@ -306,21 +409,21 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
             </div>
 
             {/* Right: real screenshot (skipped when a project has none yet) */}
-            {PREVIEWS[project.id] && (
+            {PREVIEW_IMAGES[project.id] && (
             <div className="proj-inline-preview lg:col-span-6 lg:col-start-7">
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
-                aria-label={`View ${project.name} on GitHub`}
+                aria-label={copy.githubAria(project.name)}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div
                   className="border border-[#2C2924] overflow-hidden hover:border-[#C47A2C]/40 transition-colors duration-300"
                   style={{ boxShadow: '0 16px 48px rgba(0,0,0,0.5)' }}
                 >
-                  {PREVIEWS[project.id]}
+                  <Preview id={project.id} copy={copy} />
                 </div>
               </a>
             </div>
@@ -337,6 +440,11 @@ function ProjectStage({ project, isActive, isDimmed, onActivate }) {
 ───────────────────────────────────────────────────────────────────────────── */
 export function Projects() {
   const ref = useReveal()
+  const { lang } = useLang()
+  const c = COPY[lang]
+  const projects = lang === 'ja'
+    ? PROJECTS.map((p) => ({ ...p, ...PROJECTS_JA[p.id] }))
+    : PROJECTS
   const [activeId, setActiveId] = useState(null)
 
   const toggle = (id) => {
@@ -346,7 +454,7 @@ export function Projects() {
   return (
     <section
       id="projects"
-      aria-label="Projects"
+      aria-label={c.sectionLabel}
       className="w-full bg-[#1A1815]"
       ref={ref}
     >
@@ -354,7 +462,7 @@ export function Projects() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28">
         <div className="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <p className="s-label mb-4">03 / Projects</p>
+            <p className="s-label mb-4">{c.eyebrow}</p>
             <h2
               className="text-[#E9E4D9] leading-[1.05] tracking-[-0.025em]"
               style={{
@@ -363,14 +471,14 @@ export function Projects() {
                 fontSize: 'clamp(1.8rem, 4vw, 3.2rem)',
               }}
             >
-              Things I've built.
+              {c.heading}
             </h2>
           </div>
           <p
             className="reveal reveal-d2 text-[#A09A8E] leading-relaxed max-w-xs sm:text-right"
             style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '13px' }}
           >
-            Select a project to expand it.
+            {c.hint}
           </p>
         </div>
       </div>
@@ -378,10 +486,11 @@ export function Projects() {
       {/* Project list */}
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pb-20 sm:pb-28">
         <div className="reveal reveal-d2 border-t border-[#2C2924]">
-          {PROJECTS.map((p) => (
+          {projects.map((p) => (
             <ProjectStage
               key={p.id}
               project={p}
+              copy={c}
               isActive={activeId === p.id}
               isDimmed={activeId !== null && activeId !== p.id}
               onActivate={() => toggle(p.id)}

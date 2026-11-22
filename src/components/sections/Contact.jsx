@@ -1,5 +1,25 @@
 import React from 'react'
 import { useReveal } from '@/hooks/useReveal'
+import { useLang } from '@/i18n/LanguageContext'
+
+const COPY = {
+  en: {
+    sectionLabel: 'Contact',
+    eyebrow: '05 / Contact',
+    headingBefore: "Let's build something ",
+    headingAccent: 'worth building.',
+    labels: { Email: 'Email', Resume: 'Resume' },
+    resumeMeta: 'PDF · 1 page',
+  },
+  ja: {
+    sectionLabel: '連絡先',
+    eyebrow: '05 / 連絡先',
+    headingBefore: '価値あるものを、',
+    headingAccent: '一緒につくりましょう。',
+    labels: { Email: 'メール', Resume: 'レジュメ' },
+    resumeMeta: 'PDF · 1ページ（英語）',
+  },
+}
 
 const LINKS = [
   {
@@ -30,11 +50,13 @@ const LINKS = [
 
 export function Contact() {
   const ref = useReveal()
+  const { lang } = useLang()
+  const c = COPY[lang]
 
   return (
     <section
       id="contact"
-      aria-label="Contact"
+      aria-label={c.sectionLabel}
       className="w-full bg-[#1A1815]"
       ref={ref}
     >
@@ -42,7 +64,7 @@ export function Contact() {
 
         {/* Closing headline */}
         <div className="reveal mb-14 sm:mb-16">
-          <p className="s-label mb-5">05 / Contact</p>
+          <p className="s-label mb-5">{c.eyebrow}</p>
           <h2
             className="text-[#E9E4D9] leading-[1.0] tracking-[-0.03em] max-w-3xl"
             style={{
@@ -51,8 +73,8 @@ export function Contact() {
               fontSize: 'clamp(2.2rem, 6vw, 5.5rem)',
             }}
           >
-            Let's build something{' '}
-            <span className="text-[#C47A2C]">worth building.</span>
+            {c.headingBefore}
+            <span className="text-[#C47A2C]">{c.headingAccent}</span>
           </h2>
         </div>
 
@@ -81,7 +103,7 @@ export function Contact() {
                     fontSize: 'clamp(1.4rem, 3.5vw, 2.8rem)',
                   }}
                 >
-                  {link.label}
+                  {c.labels[link.label] ?? link.label}
                 </span>
               </div>
 
@@ -90,7 +112,7 @@ export function Contact() {
                   className="hidden sm:block font-mono text-[10px] text-[#3D3A34] group-hover:text-[#A09A8E] transition-colors"
                   style={{ fontFamily: 'JetBrains Mono, monospace' }}
                 >
-                  {link.meta}
+                  {link.label === 'Resume' ? c.resumeMeta : link.meta}
                 </span>
                 <svg
                   className="w-4 h-4 text-[#3D3A34] group-hover:text-[#C47A2C] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-200"

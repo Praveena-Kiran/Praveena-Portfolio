@@ -1,5 +1,58 @@
 import React, { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
+import { useLang } from '@/i18n/LanguageContext'
+
+const COPY = {
+  en: {
+    sectionLabel: 'Technology Stack',
+    eyebrow: '02 / Stack',
+    heading: 'Tools I build with.',
+    hint: 'Hover a name for context. Hover a row to pause.',
+    categories: {
+      lang: { label: 'Languages',      note: 'What I write in.' },
+      web:  { label: 'Web & Apps',     note: 'How I build interfaces and backends.' },
+      ai:   { label: 'AI / Vision',    note: 'Core of Phoenix, Wield and Trace.' },
+      sys:  { label: 'Systems & Data', note: 'Infrastructure, monitoring, storage.' },
+    },
+  },
+  ja: {
+    sectionLabel: '技術スタック',
+    eyebrow: '02 / 技術スタック',
+    heading: '使っている技術。',
+    hint: '名前にカーソルを合わせると説明を表示、行に合わせると停止します。',
+    categories: {
+      lang: { label: '言語',             note: '普段使っているプログラミング言語。' },
+      web:  { label: 'Web・アプリ',      note: 'UIとバックエンドの構築に。' },
+      ai:   { label: 'AI・ビジョン',     note: 'Phoenix、Wield、Traceの中核技術。' },
+      sys:  { label: 'システム・データ', note: 'インフラ、監視、データ保存。' },
+    },
+  },
+}
+
+const TECH_NOTES_JA = {
+  Python:          '自動化、コンピュータビジョン、システムツールに使用。',
+  Java:            'オブジェクト指向のシステムや授業のプロジェクトに使用。',
+  JavaScript:      'WebインターフェースやインタラクティブなUIに使用。',
+  SQL:             'リレーショナルデータベースのクエリとデータ管理に使用。',
+  Bash:            'ターミナル用システムモニター「LinuxMonitor」の開発に使用。',
+  React:           'このポートフォリオとWebアプリ「Trace」の開発に使用。',
+  Flask:           'TraceのバックエンドのREST API、認証、データモデルに使用。',
+  'HTML / CSS':    'このサイトを含む、すべてのWebプロジェクトの構造とデザインに。',
+  PySide6:         'Wieldのデスクトップ画面に使用。',
+  OpenCV:          'Wieldのリアルタイム画像処理パイプラインに使用。',
+  MediaPipe:       'Wieldの手のランドマーク検出とジェスチャー認識に使用。',
+  Vosk:            'Wieldのオフライン音声コマンド「Hey Wield」に使用。',
+  'GitHub Actions': 'Wieldのテスト、ビルド、リリースを行うCIに使用。',
+  'LLM APIs':      'Phoenix（Groq）で原因診断とコードパッチ生成に使用。',
+  'Google Vision': 'Traceで落とし物の写真照合に使用。',
+  Pytest:          'PhoenixのLLMエンジンのテストと評価に使用。',
+  Linux:           '日常の開発環境。LinuxMonitorにも使用。',
+  Git:             'すべてのプロジェクトのバージョン管理に。',
+  GitHub:          'チームプロジェクトのホスティングと共同開発に。',
+  AWS:             'クラウドコンピューティングの基礎（Udemy講座修了）。',
+  MySQL:           'Webアプリで使うリレーショナルデータベース。',
+  MongoDB:         '柔軟なデータ保存に使うドキュメント型データベース。',
+}
 
 // Each tech gets a contextual description shown on hover
 const TECH_NOTES = {
@@ -63,6 +116,8 @@ const CATEGORIES = [
 ]
 
 function TechItem({ name }) {
+  const { lang } = useLang()
+  const note = (lang === 'ja' ? TECH_NOTES_JA : TECH_NOTES)[name]
   return (
     <span className="inline-flex items-center mx-8 sm:mx-12 whitespace-nowrap select-none">
       <span className="mr-8 sm:mr-12 text-[#2C2924] text-xs" aria-hidden="true">×</span>
@@ -77,9 +132,9 @@ function TechItem({ name }) {
         >
           {name}
         </span>
-        {TECH_NOTES[name] && (
+        {note && (
           <span className="tech-tooltip" role="tooltip">
-            {TECH_NOTES[name]}
+            {note}
           </span>
         )}
       </span>
@@ -140,18 +195,20 @@ function TickerRow({ label, index, note, items, dir, dur }) {
 
 export function TechStack() {
   const ref = useReveal()
+  const { lang } = useLang()
+  const c = COPY[lang]
 
   return (
     <section
       id="stack"
-      aria-label="Technology Stack"
+      aria-label={c.sectionLabel}
       className="w-full overflow-hidden"
       ref={ref}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28 pb-10">
         <div className="reveal flex items-end justify-between gap-6 mb-12">
           <div>
-            <p className="s-label mb-4">02 / Stack</p>
+            <p className="s-label mb-4">{c.eyebrow}</p>
             <h2
               className="text-[#E9E4D9] leading-[1.05] tracking-[-0.025em]"
               style={{
@@ -160,21 +217,21 @@ export function TechStack() {
                 fontSize: 'clamp(1.8rem, 4vw, 3.2rem)',
               }}
             >
-              Tools I build with.
+              {c.heading}
             </h2>
           </div>
           <p
             className="reveal reveal-d2 text-[#A09A8E] leading-relaxed max-w-xs text-right hidden sm:block"
             style={{ fontFamily: 'Manrope, system-ui, sans-serif', fontSize: '13px' }}
           >
-            Hover a name for context. Hover a row to pause.
+            {c.hint}
           </p>
         </div>
       </div>
 
       <div className="pb-20 sm:pb-28 space-y-2 border-t border-[#2C2924]">
         {CATEGORIES.map((cat) => (
-          <TickerRow key={cat.id} {...cat} />
+          <TickerRow key={cat.id} {...cat} {...c.categories[cat.id]} />
         ))}
       </div>
     </section>
