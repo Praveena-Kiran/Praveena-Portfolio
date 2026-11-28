@@ -57,7 +57,7 @@ export function Experience() {
       className="has-kanji relative overflow-hidden w-full"
       ref={ref}
     >
-      <Kanji className="right-[-2vw] top-8">導</Kanji>
+      <Kanji className="right-[-2vw] top-8">04</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* ── Section label + title row ──────────────────────────────────── */}

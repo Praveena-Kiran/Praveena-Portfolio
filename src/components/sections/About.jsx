@@ -86,17 +86,10 @@ function PortraitCard({ c }) {
         <span className="portrait-shine" aria-hidden="true" />
       </div>
       <figcaption className="portrait-caption">
-        <span className="portrait-name">
-          Praveena Kiran
-          <span lang="ja" className="portrait-kana">プラヴィーナ・キラン</span>
-        </span>
+        <span className="portrait-name">Praveena Kiran</span>
         <span className="portrait-meta">{c.cardRole}</span>
         <span className="portrait-meta">{c.cardMeta}</span>
       </figcaption>
-      <span className="hanko" aria-hidden="true" lang="ja">
-        <span>日本語</span>
-        <span>N3</span>
-      </span>
     </figure>
   )
 }
@@ -113,7 +106,7 @@ export function About() {
       className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
-      <Kanji className="right-[-2vw] top-10">人</Kanji>
+      <Kanji className="right-[-2vw] top-10">01</Kanji>
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* ── Heading + paragraphs ─────────────────────────────────────────── */}

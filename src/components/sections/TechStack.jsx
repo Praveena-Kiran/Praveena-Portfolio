@@ -206,7 +206,7 @@ export function TechStack() {
       className="has-kanji relative w-full overflow-hidden"
       ref={ref}
     >
-      <Kanji className="right-[-1vw] top-6">技</Kanji>
+      <Kanji className="right-[-1vw] top-6">02</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28 pb-10">
         <div className="reveal flex items-end justify-between gap-6 mb-12">
           <div>

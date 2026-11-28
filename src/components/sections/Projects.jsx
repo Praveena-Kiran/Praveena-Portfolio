@@ -515,7 +515,7 @@ export function Projects() {
       className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
-      <Kanji className="right-[-2vw] top-8">創</Kanji>
+      <Kanji className="right-[-2vw] top-8">03</Kanji>
       <FloatingPreview id={hoverId && hoverId !== activeId && PREVIEW_IMAGES[hoverId] ? hoverId : null} />
       {/* Header */}
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28">

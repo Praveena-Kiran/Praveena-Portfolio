@@ -107,7 +107,7 @@ function InteractiveName({ text, className, style }) {
 }
 
 // ─── RotatingBadge ───────────────────────────────────────────────────────────
-// Circular text that slowly spins around a small 日 mark.
+// Circular text that slowly spins around a small arrow mark.
 function RotatingBadge({ text }) {
   const repeated = text.repeat(2)
   return (
@@ -122,7 +122,11 @@ function RotatingBadge({ text }) {
           </textPath>
         </text>
       </svg>
-      <span className="hero-badge-core" lang="ja">日</span>
+      <span className="hero-badge-core">
+        <svg viewBox="0 0 10 10" width="18" height="18" fill="none">
+          <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </span>
     </div>
   )
 }
@@ -204,10 +208,6 @@ export function Hero() {
       {/* ── Interactive dot field ───────────────────────────────────────── */}
       <DotField className="hero-field" />
 
-      {/* ── Vertical katakana name — fills the right edge on wide screens ── */}
-      <span className="hero-katakana h-enter-flat" lang="ja" aria-hidden="true" style={{ animationDelay: '900ms' }}>
-        プラヴィーナ・キラン
-      </span>
       {/* ── Status strip ─────────────────────────────────────────────────── */}
       <div
         className="h-enter relative z-10 px-5 sm:px-8 lg:px-12 pt-7 sm:pt-9"

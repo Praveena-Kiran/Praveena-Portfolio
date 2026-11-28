@@ -183,7 +183,7 @@ export function DotField({ className = '' }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Kanji — huge outlined character(s) sitting behind a section heading.
+   Kanji — huge faint section number sitting behind a section heading.
    Drifts slightly with scroll for depth.
 ───────────────────────────────────────────────────────────────────────────── */
 export function Kanji({ children, className = '', style }) {
@@ -212,7 +212,7 @@ export function Kanji({ children, className = '', style }) {
   }, [])
 
   return (
-    <span ref={ref} className={`kanji-mark ${className}`} style={style} aria-hidden="true" lang="ja">
+    <span ref={ref} className={`kanji-mark ${className}`} style={style} aria-hidden="true">
       {children}
     </span>
   )

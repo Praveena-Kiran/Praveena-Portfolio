@@ -61,7 +61,7 @@ export function Contact() {
       className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
-      <Kanji className="right-[-2vw] top-10">縁</Kanji>
+      <Kanji className="right-[-2vw] top-10">05</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* Closing headline */}
