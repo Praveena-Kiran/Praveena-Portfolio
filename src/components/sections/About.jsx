@@ -1,6 +1,8 @@
 import React from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
+import { Kanji, useTilt } from '@/components/fx'
+import portraitSrc from '@/assets/praveena.jpg'
 
 // Paragraph text is split into segments so highlighted words ({ hl: true })
 // keep their accent colour in both languages.
@@ -27,6 +29,9 @@ const COPY = {
     languagesLabel: 'Languages',
     languages: 'Japanese · English · Telugu · Hindi',
     jlpt: 'JLPT N3 — Passed',
+    portraitAlt: 'Portrait of Praveena Kiran',
+    cardRole: 'CSE · Woxsen University',
+    cardMeta: 'Open to 2028 new-grad roles',
   },
   ja: {
     sectionLabel: 'プロフィール',
@@ -50,6 +55,9 @@ const COPY = {
     languagesLabel: '言語',
     languages: '日本語 · 英語 · テルグ語 · ヒンディー語',
     jlpt: 'JLPT N3 合格',
+    portraitAlt: 'プラヴィーナ・キランの写真',
+    cardRole: 'コンピュータサイエンス工学 · Woxsen大学',
+    cardMeta: '2028年卒 · 新卒採用を希望',
   },
 }
 
@@ -69,6 +77,30 @@ function Segments({ parts }) {
   )
 }
 
+function PortraitCard({ c }) {
+  const tiltRef = useTilt(7)
+  return (
+    <figure ref={tiltRef} className="portrait-card">
+      <div className="portrait-frame">
+        <img src={portraitSrc} alt={c.portraitAlt} loading="lazy" decoding="async" />
+        <span className="portrait-shine" aria-hidden="true" />
+      </div>
+      <figcaption className="portrait-caption">
+        <span className="portrait-name">
+          Praveena Kiran
+          <span lang="ja" className="portrait-kana">プラヴィーナ・キラン</span>
+        </span>
+        <span className="portrait-meta">{c.cardRole}</span>
+        <span className="portrait-meta">{c.cardMeta}</span>
+      </figcaption>
+      <span className="hanko" aria-hidden="true" lang="ja">
+        <span>日本語</span>
+        <span>N3</span>
+      </span>
+    </figure>
+  )
+}
+
 export function About() {
   const ref = useReveal()
   const { lang } = useLang()
@@ -78,40 +110,47 @@ export function About() {
     <section
       id="about"
       aria-label={c.sectionLabel}
-      className="w-full bg-[#1A1815]"
+      className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
+      <Kanji className="right-[-2vw] top-10">人</Kanji>
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* ── Heading + paragraphs ─────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0 mb-16 sm:mb-20">
 
-          <div className="lg:col-span-6 reveal">
-            <p className="s-label mb-5">{c.eyebrow}</p>
-            <h2
-              className="text-[#E9E4D9] leading-[1.06] tracking-[-0.025em]"
-              style={{
-                fontFamily: 'Sora, system-ui, sans-serif',
-                fontWeight: 800,
-                fontSize: 'clamp(2rem, 4.5vw, 3.8rem)',
-              }}
-            >
-              {c.heading[0]}
-              <br />
-              <span className="text-[#C47A2C]">{c.heading[1]}</span>
-              <br />
-              <span className="text-[#A09A8E]">{c.heading[2]}</span>
-            </h2>
-            <div className="mt-7 w-12 h-0.5 bg-[#C47A2C]" aria-hidden="true" />
+          <div className="lg:col-span-7 flex flex-col">
+            <div className="reveal">
+              <p className="s-label mb-5">{c.eyebrow}</p>
+              <h2
+                className="text-[#E9E4D9] leading-[1.06] tracking-[-0.025em]"
+                style={{
+                  fontFamily: 'Sora, system-ui, sans-serif',
+                  fontWeight: 800,
+                  fontSize: 'clamp(2rem, 4.5vw, 3.8rem)',
+                }}
+              >
+                {c.heading[0]}
+                <br />
+                <span className="text-[#C47A2C]">{c.heading[1]}</span>
+                <br />
+                <span className="text-[#A09A8E]">{c.heading[2]}</span>
+              </h2>
+              <div className="mt-7 w-12 h-0.5 bg-[#C47A2C]" aria-hidden="true" />
+            </div>
+
+            <div className="reveal reveal-d2 flex flex-col gap-5 mt-10 max-w-xl">
+              <p className="text-[#E9E4D9] leading-[1.8]" style={paraStyle}>
+                <Segments parts={c.p1} />
+              </p>
+              <p className="text-[#E9E4D9] leading-[1.8]" style={paraStyle}>
+                <Segments parts={c.p2} />
+              </p>
+            </div>
           </div>
 
-          <div className="lg:col-span-5 lg:col-start-8 reveal reveal-d2 flex flex-col gap-5">
-            <p className="text-[#E9E4D9] leading-[1.8]" style={paraStyle}>
-              <Segments parts={c.p1} />
-            </p>
-            <p className="text-[#E9E4D9] leading-[1.8]" style={paraStyle}>
-              <Segments parts={c.p2} />
-            </p>
+          <div className="lg:col-span-4 lg:col-start-9 reveal reveal-d3 flex justify-center lg:justify-end items-start lg:pt-10">
+            <PortraitCard c={c} />
           </div>
         </div>
 

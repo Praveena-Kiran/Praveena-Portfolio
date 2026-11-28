@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
+import { Kanji } from '@/components/fx'
 import imgWield    from '@/assets/wield_sc.jpg'
 import imgLinux    from '@/assets/linux_sc.jpg'
 import imgTrace    from '@/assets/trace_sc.jpg'
@@ -55,6 +57,58 @@ function Preview({ id, copy }) {
       decoding="async"
       className="w-full h-auto block"
     />
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FLOATING PREVIEW — on desktop, the screenshot of the hovered (collapsed)
+   project trails the cursor. Eased with rAF; tilts slightly with velocity.
+───────────────────────────────────────────────────────────────────────────── */
+function FloatingPreview({ id }) {
+  const ref = useRef(null)
+  const state = useRef({ x: 0, y: 0, tx: 0, ty: 0, raf: null, primed: false })
+  const [enabled] = useState(() =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+
+  useEffect(() => {
+    if (!enabled) return
+    const st = state.current
+    const tick = () => {
+      const el = ref.current
+      st.raf = null
+      if (!el) return
+      const dx = st.tx - st.x
+      st.x += dx * 0.16
+      st.y += (st.ty - st.y) * 0.16
+      const rot = Math.max(-8, Math.min(8, dx * 0.06))
+      el.style.transform = `translate3d(${st.x}px, ${st.y}px, 0) translate(-50%, -50%) rotate(${rot}deg)`
+      if (Math.abs(dx) + Math.abs(st.ty - st.y) > 0.3) st.raf = requestAnimationFrame(tick)
+    }
+    const onMove = (e) => {
+      st.tx = e.clientX + 200; st.ty = e.clientY
+      if (!st.primed) { st.x = st.tx; st.y = st.ty; st.primed = true }
+      if (!st.raf) st.raf = requestAnimationFrame(tick)
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      if (st.raf) cancelAnimationFrame(st.raf)
+    }
+  }, [enabled])
+
+  if (!enabled) return null
+  // Portalled to <body>: the section uses content-visibility (paint
+  // containment), which would otherwise clip a position:fixed child.
+  return createPortal(
+    <div ref={ref} className={`float-preview ${id ? 'is-on' : ''}`} aria-hidden="true">
+      {Object.entries(PREVIEW_IMAGES).map(([key, img]) => (
+        <img key={key} src={img.src} alt="" className={key === id ? 'is-shown' : ''} decoding="async" />
+      ))}
+    </div>,
+    document.body
   )
 }
 
@@ -227,7 +281,7 @@ const PROJECTS = [
 /* ─────────────────────────────────────────────────────────────────────────────
    PROJECT ROW / STAGE
 ───────────────────────────────────────────────────────────────────────────── */
-function ProjectStage({ project, isActive, isDimmed, onActivate, copy }) {
+function ProjectStage({ project, isActive, isDimmed, onActivate, onHover, copy }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
@@ -255,6 +309,8 @@ function ProjectStage({ project, isActive, isDimmed, onActivate, copy }) {
         className="pl-6 sm:pl-10 lg:pl-12 pr-5 sm:pr-8 lg:pr-12 pt-7 sm:pt-9 pb-5 sm:pb-6 cursor-pointer select-none"
         onClick={onActivate}
         onKeyDown={handleKeyDown}
+        onMouseEnter={() => onHover(project.id)}
+        onMouseLeave={() => onHover(null)}
         role="button"
         tabIndex={0}
         aria-label={copy.toggleAria(project.name, isActive)}
@@ -446,6 +502,7 @@ export function Projects() {
     ? PROJECTS.map((p) => ({ ...p, ...PROJECTS_JA[p.id] }))
     : PROJECTS
   const [activeId, setActiveId] = useState(null)
+  const [hoverId, setHoverId]   = useState(null)
 
   const toggle = (id) => {
     setActiveId((prev) => (prev === id ? null : id))
@@ -455,9 +512,11 @@ export function Projects() {
     <section
       id="projects"
       aria-label={c.sectionLabel}
-      className="w-full bg-[#1A1815]"
+      className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
+      <Kanji className="right-[-2vw] top-8">創</Kanji>
+      <FloatingPreview id={hoverId && hoverId !== activeId && PREVIEW_IMAGES[hoverId] ? hoverId : null} />
       {/* Header */}
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28">
         <div className="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
@@ -494,6 +553,7 @@ export function Projects() {
               isActive={activeId === p.id}
               isDimmed={activeId !== null && activeId !== p.id}
               onActivate={() => toggle(p.id)}
+              onHover={setHoverId}
             />
           ))}
         </div>

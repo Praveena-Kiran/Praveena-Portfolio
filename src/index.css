@@ -492,6 +492,306 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
+   CURSOR GLOW — warm spotlight that trails the pointer
+═══════════════════════════════════════════════════════════════════════ */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  background: radial-gradient(
+    520px circle at var(--gx, 50%) var(--gy, 30%),
+    rgba(196,122,44,0.075),
+    transparent 65%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SCROLL PROGRESS — hairline under the navbar
+═══════════════════════════════════════════════════════════════════════ */
+.scroll-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #8B6A3E, var(--accent) 60%, #E8A65E);
+  box-shadow: 0 0 10px rgba(196,122,44,0.5);
+}
+
+/* Current section in the nav — persistent underline */
+.cu-line.is-current::after { width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERO — dot field, vertical katakana, rotating badge, button shine
+═══════════════════════════════════════════════════════════════════════ */
+.hero-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, black 30%, transparent 85%);
+          mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, black 30%, transparent 85%);
+}
+
+.hero-katakana {
+  display: none;
+  position: absolute;
+  right: clamp(1.25rem, 3.2vw, 3rem);
+  top: 7.5rem;
+  z-index: 1;
+  writing-mode: vertical-rl;
+  font-family: system-ui, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 3.6vw, 3.6rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: rgba(196,122,44,0.16);
+  pointer-events: none;
+  user-select: none;
+}
+@media (min-width: 1100px) { .hero-katakana { display: block; } }
+
+.hero-badge {
+  display: none;
+  position: absolute;
+  right: 2%;
+  bottom: 0;
+  width: 150px;
+  height: 150px;
+  z-index: 11;
+  pointer-events: none;
+}
+@media (min-width: 1100px) { .hero-badge { display: block; } }
+.hero-badge-ring {
+  width: 100%;
+  height: 100%;
+  animation: badge-spin 22s linear infinite;
+}
+.hero-badge-ring text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: #C8C2B6;
+}
+.hero-badge-core {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--canvas);
+  font-family: system-ui, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  box-shadow: 0 0 0 6px rgba(196,122,44,0.12), 0 10px 30px rgba(196,122,44,0.25);
+}
+@keyframes badge-spin { to { transform: rotate(360deg); } }
+
+/* Sheen that sweeps across the primary button on hover */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-shine:hover::after { left: 130%; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   KANJI WATERMARK — huge outlined character behind section headings
+═══════════════════════════════════════════════════════════════════════ */
+.kanji-mark {
+  position: absolute;
+  z-index: 0;
+  font-family: system-ui, 'Hiragino Mincho ProN', 'Noto Serif JP', serif;
+  font-weight: 900;
+  font-size: clamp(12rem, 28vw, 26rem);
+  line-height: 1;
+  color: rgba(196,122,44,0.045);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+.has-kanji > :not(.kanji-mark) { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PORTRAIT CARD — About section, tilts toward the cursor
+═══════════════════════════════════════════════════════════════════════ */
+.portrait-card {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0;
+  padding: 12px 12px 0;
+  background: var(--lift);
+  border: 1px solid var(--seam);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,122,44,0.04);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  transform-style: preserve-3d;
+}
+.portrait-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: #E9E4D9;
+}
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 12%;
+  display: block;
+  /* Photo has a white backdrop — multiply turns it into the cream frame */
+  mix-blend-mode: multiply;
+  filter: saturate(0.92) contrast(1.02);
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.portrait-card:hover .portrait-frame img { transform: scale(1.04); }
+.portrait-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 0%), rgba(255,255,255,0.22), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.portrait-card:hover .portrait-shine { opacity: 1; }
+.portrait-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 4px 16px;
+}
+.portrait-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: 'Sora', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+.portrait-kana {
+  font-family: system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.portrait-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+/* Hanko — a red seal stamped on the corner of the photo */
+.hanko {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  color: #C8402E;
+  border: 2.5px solid #C8402E;
+  background: rgba(27,25,21,0.85);
+  box-shadow: inset 0 0 0 3px rgba(27,25,21,0.85), inset 0 0 0 4px rgba(200,64,46,0.7);
+  font-family: system-ui, 'Hiragino Mincho ProN', serif;
+  font-weight: 800;
+  line-height: 1;
+  transform: rotate(-12deg) translateZ(30px);
+}
+.hanko span:first-child { font-size: 12px; letter-spacing: 0.05em; }
+.hanko span:last-child  { font-size: 20px; font-family: 'Sora', system-ui, sans-serif; }
+.revealed .hanko, .reveal.revealed .hanko { animation: stamp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.6s both; }
+@keyframes stamp {
+  0%   { opacity: 0; transform: rotate(-30deg) scale(2.2); }
+  60%  { opacity: 1; transform: rotate(-10deg) scale(0.92); }
+  100% { opacity: 1; transform: rotate(-12deg) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PROJECT FLOATING PREVIEW — screenshot trailing the cursor
+═══════════════════════════════════════════════════════════════════════ */
+.float-preview {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 60;
+  width: 320px;
+  aspect-ratio: 16 / 10;
+  pointer-events: none;
+  overflow: hidden;
+  border: 1px solid rgba(196,122,44,0.35);
+  background: var(--lift);
+  box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7);
+  opacity: 0;
+  clip-path: inset(50% 0 50% 0);
+  transition: opacity 0.25s ease, clip-path 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.float-preview.is-on { opacity: 1; clip-path: inset(0 0 0 0); }
+.float-preview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.float-preview img.is-shown { opacity: 1; transform: scale(1); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONTACT ROWS — accent fill sweeps in from the left on hover
+═══════════════════════════════════════════════════════════════════════ */
+.contact-row { overflow: hidden; }
+.contact-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(196,122,44,0.14), rgba(196,122,44,0.03) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.contact-row:hover::before,
+.contact-row:focus-visible::before { transform: scaleX(1); }
+.contact-row > * { position: relative; }
+.contact-row-label { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+.contact-row:hover .contact-row-label { transform: translateX(12px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-badge-ring { animation: none !important; }
+  .kanji-mark { transform: none !important; }
+  .hanko { animation: none !important; }
+  .portrait-card { transform: none !important; }
+  .contact-row:hover .contact-row-label { transform: none; }
+  .btn-shine::after { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    JAPANESE TYPOGRAPHY — applies when <html lang="ja"> (language toggle)
 ═══════════════════════════════════════════════════════════════════════ */
 :lang(ja) body {

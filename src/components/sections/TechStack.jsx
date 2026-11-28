@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
+import { Kanji } from '@/components/fx'
 
 const COPY = {
   en: {
@@ -202,9 +203,10 @@ export function TechStack() {
     <section
       id="stack"
       aria-label={c.sectionLabel}
-      className="w-full overflow-hidden"
+      className="has-kanji relative w-full overflow-hidden"
       ref={ref}
     >
+      <Kanji className="right-[-1vw] top-6">技</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-20 sm:pt-28 pb-10">
         <div className="reveal flex items-end justify-between gap-6 mb-12">
           <div>

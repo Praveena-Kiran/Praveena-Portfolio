@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navbar } from './Navbar'
 import { Footer } from './Footer'
+import { CursorGlow } from '@/components/fx'
 
 export function MainLayout({ children }) {
   return (
@@ -15,6 +16,8 @@ export function MainLayout({ children }) {
         <div className="blob blob-2" />
         <div className="blob blob-3" />
       </div>
+
+      <CursorGlow />
 
       {/* All page content sits above the blob layer (z-index baseline) */}
       <div className="relative z-10 flex flex-col flex-1">

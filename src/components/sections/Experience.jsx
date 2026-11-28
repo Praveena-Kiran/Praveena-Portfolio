@@ -1,6 +1,7 @@
 import React from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
+import { Kanji, CountUp } from '@/components/fx'
 
 const STAT_VALUES = ['200+', '1,000+', '15+', 'N4 & N5']
 
@@ -53,9 +54,10 @@ export function Experience() {
     <section
       id="experience"
       aria-label={c.sectionLabel}
-      className="w-full"
+      className="has-kanji relative overflow-hidden w-full"
       ref={ref}
     >
+      <Kanji className="right-[-2vw] top-8">導</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* ── Section label + title row ──────────────────────────────────── */}
@@ -101,7 +103,7 @@ export function Experience() {
                     letterSpacing: '-0.03em',
                   }}
                 >
-                  {value}
+                  <CountUp value={value} />
                 </p>
                 {/* Muted label beneath */}
                 <p

@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useLang } from '@/i18n/LanguageContext'
+import { ScrollProgress, useActiveSection } from '@/components/fx'
+
+const SECTION_IDS = ['about', 'stack', 'projects', 'experience', 'contact']
 
 const COPY = {
   en: {
@@ -85,6 +88,7 @@ export function Navbar() {
   const c = COPY[lang]
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
+  const activeSection           = useActiveSection(SECTION_IDS)
   // rAF ref — prevents queuing more than one frame per scroll burst
   const rafRef = useRef(null)
 
@@ -134,7 +138,8 @@ export function Navbar() {
                 <a
                   key={href}
                   href={href}
-                  className="cu-line text-[#A09A8E] hover:text-[#E9E4D9] transition-colors duration-200 focus-visible:outline-none"
+                  aria-current={activeSection === href.slice(1) ? 'location' : undefined}
+                  className={`cu-line ${activeSection === href.slice(1) ? 'is-current text-[#E9E4D9]' : 'text-[#A09A8E]'} hover:text-[#E9E4D9] transition-colors duration-200 focus-visible:outline-none`}
                   style={{
                     fontFamily: 'Manrope, system-ui, sans-serif',
                     fontWeight: 600,
@@ -162,6 +167,7 @@ export function Navbar() {
             </button>
           </div>
         </div>
+        <ScrollProgress />
       </header>
 
       {open && (

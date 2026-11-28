@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react'
 import portraitSrc from '@/assets/ferris_wheel.jpg'
 import { useLang } from '@/i18n/LanguageContext'
+import { DotField } from '@/components/fx'
 
 const COPY = {
   en: {
@@ -23,6 +24,7 @@ const COPY = {
     areas: ['AI', 'Computer Vision', 'Automation', 'Linux / Systems', 'Robotics', 'Japan'],
     scroll: 'Scroll',
     scrollAria: 'Scroll to About',
+    badge: 'Open to work · 2028 new grad · Japan · ',
   },
   ja: {
     sectionLabel: '自己紹介',
@@ -44,6 +46,7 @@ const COPY = {
     areas: ['AI', 'コンピュータビジョン', '自動化', 'Linux／システム', 'ロボティクス', '日本'],
     scroll: 'スクロール',
     scrollAria: 'プロフィールへ移動',
+    badge: '2028年卒 · 新卒採用 · 日本で働きたい · ',
   },
 }
 
@@ -100,6 +103,27 @@ function InteractiveName({ text, className, style }) {
         )
       )}
     </span>
+  )
+}
+
+// ─── RotatingBadge ───────────────────────────────────────────────────────────
+// Circular text that slowly spins around a small 日 mark.
+function RotatingBadge({ text }) {
+  const repeated = text.repeat(2)
+  return (
+    <div className="hero-badge" aria-hidden="true">
+      <svg viewBox="0 0 200 200" className="hero-badge-ring">
+        <defs>
+          <path id="badge-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+        </defs>
+        <text>
+          <textPath href="#badge-circle" textLength="488" lengthAdjust="spacingAndGlyphs">
+            {repeated}
+          </textPath>
+        </text>
+      </svg>
+      <span className="hero-badge-core" lang="ja">日</span>
+    </div>
   )
 }
 
@@ -177,9 +201,16 @@ export function Hero() {
       className="relative w-full flex flex-col"
       style={{ minHeight: 'calc(100svh - 3.5rem)', paddingTop: '3.5rem' }}
     >
+      {/* ── Interactive dot field ───────────────────────────────────────── */}
+      <DotField className="hero-field" />
+
+      {/* ── Vertical katakana name — fills the right edge on wide screens ── */}
+      <span className="hero-katakana h-enter-flat" lang="ja" aria-hidden="true" style={{ animationDelay: '900ms' }}>
+        プラヴィーナ・キラン
+      </span>
       {/* ── Status strip ─────────────────────────────────────────────────── */}
       <div
-        className="h-enter px-5 sm:px-8 lg:px-12 pt-7 sm:pt-9"
+        className="h-enter relative z-10 px-5 sm:px-8 lg:px-12 pt-7 sm:pt-9"
         style={{ animationDelay: '60ms' }}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#2C2924]">
@@ -192,7 +223,7 @@ export function Hero() {
       </div>
 
       {/* ── Name + content ───────────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col justify-center px-5 sm:px-8 lg:px-12 py-7 sm:py-10 max-w-7xl mx-auto w-full">
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-5 sm:px-8 lg:px-12 py-7 sm:py-10 max-w-7xl mx-auto w-full">
 
         {/*
           Name block — `relative overflow-hidden` so the portrait is clipped
@@ -313,9 +344,12 @@ export function Hero() {
 
         {/* Statement + sidebar */}
         <div
-          className="h-enter grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14"
+          className="h-enter relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14"
           style={{ animationDelay: '360ms' }}
         >
+          {/* Rotating availability badge — fills the empty lower-right corner */}
+          <RotatingBadge text={c.badge} />
+
           {/* Left: statement + desc + CTAs */}
           <div className="lg:col-span-7">
             <p
@@ -358,7 +392,7 @@ export function Hero() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="#projects"
-                className="btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C47A2C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1B1915]"
+                className="btn-primary btn-shine focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C47A2C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1B1915]"
               >
                 {c.seeWork}
               </a>
@@ -412,7 +446,7 @@ export function Hero() {
 
       {/* ── Scroll cue ───────────────────────────────────────────────────── */}
       <div
-        className="h-enter-flat px-5 sm:px-8 lg:px-12 pb-7"
+        className="h-enter-flat relative z-10 px-5 sm:px-8 lg:px-12 pb-7"
         style={{ animationDelay: '700ms' }}
       >
         <a

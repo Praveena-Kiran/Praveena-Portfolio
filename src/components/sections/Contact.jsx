@@ -1,6 +1,7 @@
 import React from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { useLang } from '@/i18n/LanguageContext'
+import { Kanji } from '@/components/fx'
 
 const COPY = {
   en: {
@@ -57,9 +58,10 @@ export function Contact() {
     <section
       id="contact"
       aria-label={c.sectionLabel}
-      className="w-full bg-[#1A1815]"
+      className="has-kanji relative overflow-hidden w-full bg-[#1A1815]"
       ref={ref}
     >
+      <Kanji className="right-[-2vw] top-10">縁</Kanji>
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
 
         {/* Closing headline */}
@@ -86,9 +88,9 @@ export function Contact() {
               href={link.href}
               target={link.external ? '_blank' : undefined}
               rel={link.external ? 'noopener noreferrer' : undefined}
-              className="group flex items-center justify-between py-6 sm:py-7 border-b border-[#2C2924] hover:bg-[#1e1c18] transition-colors duration-200 -mx-2 px-2 focus-visible:outline-none focus-visible:ring-inset focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
+              className="contact-row group relative flex items-center justify-between py-6 sm:py-7 border-b border-[#2C2924] -mx-2 px-2 focus-visible:outline-none focus-visible:ring-inset focus-visible:ring-1 focus-visible:ring-[#C47A2C]"
             >
-              <div className="flex items-center gap-5 sm:gap-8">
+              <div className="contact-row-label flex items-center gap-5 sm:gap-8">
                 <span
                   className="font-mono text-[9px] text-[#3D3A34] group-hover:text-[#C47A2C] transition-colors"
                   style={{ fontFamily: 'JetBrains Mono, monospace' }}
